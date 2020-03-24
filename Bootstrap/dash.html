@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+    <!--Estilos personalizados css-->
+    <link type="text/css" rel="stylesheet" href="css/estilos.css">
+
+    <title>Inventory</title>
+  </head>
+
+  <body>
+    
+ 
+    <nav class="navbar sticky-top navbar-dark bg-primary">
+        
+        <a class="navbar-brand" href="dash.html"> <h4>ASRInventory</h4> </a>
+        <left>
+        <!---<button type="button" class="btn btn-primary">DAR DE ALTA</button>
+        <button type="button" class="btn btn-primary">CERRAR SESION</button>--> 
+
+        <a href="c_data.html"><input type="button" class="btn btn-primary" value="DAR DE ALTA"></a> 
+        <a href="index.html"><input type="button" class="btn btn-primary" value="CERRAR SESION"></a> 
+        </left> 
+    </nav>
+
+    <section class="bg-gray">
+        <div class="container">
+            <div class="row">
+
+            <div class="col-12 m-3">
+                <h1 class="display-4 text-center">Inventario ASR</h1>        
+            </div>
+            <div class="col-2 my-3"> 
+                <form class="form-inline my-1 my-lg-0">    
+                    <input class="form-control form-control-sm" id="myInput" type="text" onkeyup="filtro()" placeholder="Buscar...">
+                    <br>
+                </form>      
+            </div>
+            <div class="col my-3">
+                <button type="button" class="btn btn-outline-primary btn-sm mx-1">ID Laboratorio</button>
+            
+                <button type="button" class="btn btn-outline-primary btn-sm mx-1">ID Producto</button>
+           
+                <button type="button" class="btn btn-outline-primary btn-sm mx-1">Material</button>
+            
+                <button type="button" class="btn btn-outline-primary btn-sm mx-1">Marca</button>
+            </div>
+            <div class="col-4 my-3">
+                <button type="button" class="btn btn-primary btn-sm float-right">Generar Reporte</button>
+            </div>
+            <div class="col-12">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th  scope="col">ID Laboratorio
+                            </th>
+                            <th scope="col">ID Producto
+                            </th>
+                            <th  scope="col">Material
+                            </th>
+                            <th  scope="col">Marca
+                            </th>
+                            <th  scope="col">Estado
+                            </th>
+                            <th  scope="col">Color
+                            </th>
+                            <th  scope="col">Accion
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="myTable">
+                        <tr>
+                            <td scope="row">Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>Verde</td>
+                            <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Garrett Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>63</td>
+                            <td>2011/07/25</td>
+                            <td>Verde</td>
+                            <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Ashton Cox</td>
+                            <td>Junior Technical Author</td>
+                            <td>San Francisco</td>
+                            <td>66</td>
+                            <td>2009/01/12</td>
+                            <td>Verde</td>
+                            <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Cedric Kelly</td>
+                            <td>Senior Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>22</td>
+                            <td>2012/03/29</td>
+                            <td>Verde</td>
+                            <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Jennifer Acosta</td>
+                            <td>Junior Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>43</td>
+                            <td>2013/02/01</td>
+                            <td>Verde</td>
+                            <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Donna Snider</td>
+                            <td>Customer Support</td>
+                            <td>New York</td>
+                            <td>27</td>
+                            <td>2011/01/25</td>
+                            <td>Verde</td>
+                            <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>  
+        </div>
+    </section>
+
+    <nav class="navbar navbar-dark bg-dark">
+        <p class="text-center">Laboratorio ASR</p>
+    </nav>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <!--Archivos Bootstrap Javascript-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/filtro.js"></script>
+    <script src="js/popper.min.js" ></script>
+    <script src="js/bootstrap.min.js" ></script>
+  </body>
+</html>
+

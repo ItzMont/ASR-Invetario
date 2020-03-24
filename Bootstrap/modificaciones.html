@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+    <!--Estilos personalizados css-->
+    <link type="text/css" rel="stylesheet" href="css/estilos.css">
+
+    <title>Modificaciones</title>
+  </head>
+
+  <body>
+    
+    <nav class="navbar sticky-top navbar-dark bg-primary">
+        
+      <a class="navbar-brand" href="dash.html"> <h4>ASRInventory</h4> </a>
+      <left>
+      <!---<button type="button" class="btn btn-primary">DAR DE ALTA</button>
+      <button type="button" class="btn btn-primary">CERRAR SESION</button>-->
+
+      <a href="c_data.html"><input type="button" class="btn btn-primary" value="DAR DE ALTA"></a> 
+      <a href="index.html"><input type="button" class="btn btn-primary" value="CERRAR SESION"></a> 
+      </left> 
+  </nav>
+    
+       
+  
+
+  <section class="bg-gray">
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-12  my-3">
+          <h1 class="display-4">Modificaciones</h1>        
+        </div>
+        <div class="col-12 my-2">
+          <form>
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-2 col-form-label">Estatus</label>
+              <div class="col-sm-10">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-outline-success active">
+                    <input type="radio" name="options" id="option1"> Disponible
+                  </label>
+                  <label class="btn btn-outline-warning">
+                    <input type="radio" name="options" id="option2"> Reparacion
+                  </label>
+                  <label class="btn btn-outline-danger">
+                    <input type="radio" name="options" id="option3"> Baja
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Material</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Marca</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">Color</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">ID Laboratorio</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputPassword" class="col-sm-2 col-form-label">ID Producto</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword">
+              </div>
+            </div>
+
+          
+            <button type="button" class="btn btn-success float-right m-3" data-toggle="modal" data-target="#ventana1">Guardar Cambios</button>
+            <button type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#ventana2">Cancelar</button>
+            
+          </form>
+
+          <!-- Modal 1 -->
+          <div class="modal fade" id="ventana1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Guardar Cambios</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ¿Esta seguro de realizar los cambios al material del laboratorio?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-outline-success" data-dismiss="modal">Guardar Cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+           <!-- Modal 2 -->
+           <div class="modal fade" id="ventana2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Cancelar</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ¿Desea salir de la pestaña de <strong>Modificaciones</strong>?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+                  <a href="dash.html"><input type="button" class="btn btn-outline-primary" value="Salir"></a>  
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        </div>
+      </div>  
+    </div>
+  </section>     
+
+  <!--
+  <nav class="navbar navbar-dark bg-dark mt-4">
+    <a class="navbar-brand" href="#"><center>Laboratorio ASR</center></a>
+  </nav>
+-->
+  <div class="navbar1">
+    <p>Laboratorio ASR</p>  
+  </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <!--Archivos Bootstrap Javascript-->
+    <script src="js/jquery-3.4.1.min.js" ></script>
+    <script src="js/popper.min.js" ></script>
+    <script src="js/bootstrap.min.js" ></script>
+  </body>
+</html>
