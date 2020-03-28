@@ -1,5 +1,0 @@
-Notas:
--Cuando se realicen las relaciones en la base de datos poner que cuando se elimine la entidad usuario se elimine en cascada la informacion, es decir, la info Abogado o cliente. Pensar si los casos los dejamos como null
--Cunado se elimine un usuario y este haya realizado una transacciones se debe guardar su nombre por motivos informativos
--Duda: Como sera la interaccion cuand se lleve un caso? Tendra comentarios el caso o todo sera desde el chat
--No pude ponerle set null a una llave foranea
