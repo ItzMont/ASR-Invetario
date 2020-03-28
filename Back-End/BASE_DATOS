@@ -1,0 +1,24 @@
+CREATE DATABASE IF NOT EXISTS `colaw` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `colaw`;
+
+CREATE TABLE IF NOT EXISTS `rol` (
+  `rol_id` int(11) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  PRIMARY KEY (`rol_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `email` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `apellidoP` varchar(45) NOT NULL,
+  `apellidoM` varchar(45) NOT NULL,
+  `idUser` int(11) NOT NULL AUTO_INCREMENT,
+  `fechaN` DATE NOT NULL,
+  `tipo` int(11) NOT NULL DEFAULT 1,
+
+
+ 
+  `create_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`idUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

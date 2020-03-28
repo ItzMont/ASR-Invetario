@@ -1,0 +1,3 @@
+Notas:
+-Revisar el error que se debe devolver en caso de que exista un error en la QUERY, se debe condfigurar algunas vairbales enel config de codeigniter para que no aviente sus error de que la query murio
+-Revisar lo que se mete a la base de datos, porque pude meter cadenas a un campo que solicita solo numero y no me marco error
