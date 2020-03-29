@@ -35,45 +35,42 @@
             <div class="col-12 m-3">
                 <h1 class="display-4 text-center">Inventario ASR</h1>        
             </div>
-            <div class="col-2 my-3"> 
+            <div class="col-auto my-3"> 
                 <form class="form-inline my-1 my-lg-0">    
                     <input class="form-control form-control-sm" id="myInput" type="text" onkeyup="filtro()" placeholder="Buscar...">
                     <br>
                 </form>      
             </div>
             <div class="col my-3">
-                <button type="button" class="btn btn-outline-primary btn-sm mx-1">ID Laboratorio</button>
-            
-                <button type="button" class="btn btn-outline-primary btn-sm mx-1">ID Producto</button>
-           
-                <button type="button" class="btn btn-outline-primary btn-sm mx-1">Material</button>
-            
-                <button type="button" class="btn btn-outline-primary btn-sm mx-1">Marca</button>
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">ID Laboratorio</button>
             </div>
-            <div class="col-4 my-3">
-                <button type="button" class="btn btn-primary btn-sm float-right">Generar Reporte</button>
+            <div class="col my-3">
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">ID Producto</button>
+            </div>
+            <div class="col my-3">
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">Material</button>
+            </div>
+            <div class="col my-3">
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">Marca</button>
+            </div>
+            <div class="col  my-3">
+                <button type="button" class="btn btn-primary btn-block btn-sm float-right">Generar Reporte</button>
             </div>
             <div class="col-12">
-                    <table class="table">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th  scope="col">ID Laboratorio
-                            </th>
-                            <th scope="col">ID Producto
-                            </th>
-                            <th  scope="col">Material
-                            </th>
-                            <th  scope="col">Marca
-                            </th>
-                            <th  scope="col">Estado
-                            </th>
-                            <th  scope="col">Color
-                            </th>
-                            <th  scope="col">Accion
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody id="myTable">
+                    
+                <table class="table table-responsive-sm table-responsive-md">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">ID Laboratorio</th>
+                        <th scope="col">ID Producto</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Accion</th>
+                      </tr>
+                    </thead>
+                    <tbody id="myTable">
                         <tr>
                             <td scope="row">Tiger Nixon</td>
                             <td>System Architect</td>
@@ -128,16 +125,20 @@
                             <td>Verde</td>
                             <td> <a href="modificaciones.html"><input type="button" class="btn btn-secondary btn-sm" value="Modificar"></a> </td>
                         </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                  </table>
+
             </div>  
         </div>
     </section>
 
-    <nav class="navbar navbar-dark bg-dark">
+    <!--<nav class="navbar navbar-dark bg-dark">
         <p class="text-center">Laboratorio ASR</p>
-    </nav>
+    </nav>-->
+
+    <div class="navbar1">
+        <p>Laboratorio ASR</p>  
+    </div>
 
 
     <!-- Optional JavaScript -->
