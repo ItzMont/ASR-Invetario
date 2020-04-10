@@ -152,4 +152,272 @@ VALUES(
 ),
 (
     "INVITADO"
+);
+
+---------------------------------STORED PROCEDURES
+
+-----CRUD "INVITADO"
+DELIMITER $$
+DROP PROCEDURE IF EXISTS CreateInvitado $$
+CREATE PROCEDURE CreateInvitado(
+  nombreParam NVARCHAR(50),
+  apellidoPParam NVARCHAR(50),
+  apellidoMParam NVARCHAR(50),
+  claveIdentificacionParam NVARCHAR(20),
+  contraASRParam NVARCHAR(100),
+  fdnParam DATE
 )
+BEGIN
+  START TRANSACTION;
+  INSERT INTO `usuarios`(
+    `nombre`,
+    `apellidoP`,
+    `apellidoM`,
+    `claveIdentificacion`,
+    `contraASR`,
+    `fdn`,
+    `idrol`
+  )VALUES(
+    nombreParam,
+    apellidoPParam,
+    apellidoMParam,
+    claveIdentificacionParam,
+    contraASRParam,
+    fdnParam,
+    2
+  );
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS UpdateInvitado $$
+CREATE PROCEDURE UpdateInvitado(
+  idusuarioParam INT,
+  nombreParam NVARCHAR(50),
+  apellidoPParam NVARCHAR(50),
+  apellidoMParam NVARCHAR(50),
+  claveIdentificacionParam NVARCHAR(20),
+  contraASRParam NVARCHAR(100),
+  fdnParam DATE
+)
+BEGIN
+  START TRANSACTION;
+  UPDATE `usuarios`
+  SET
+    `nombre` = nombreParam,
+    `apellidoP` = apellidoPParam,
+    `apellidoM` = apellidoMParam,
+    `claveIdentificacion` = claveIdentificacionParam,
+    `contraASR` = contraASRParam,
+    `fdn` = fdnParam
+  WHERE `idusuario` = idusuarioParam AND
+    `id_rol` = 2 AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetInvitadoByID $$
+CREATE PROCEDURE GetInvitadoByID(
+  idusuarioParam INT
+)
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `nombre`,
+    `apellidoP`,
+    `apellidoM`,
+    `claveIdentificacion`,
+    `contraASR`,
+    `fdn`
+  FROM
+    `usuarios`
+  WHERE
+    `idusuario` = idusuarioParam AND
+    `id_rol` = 2 AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetAllInvitados $$
+CREATE PROCEDURE GetAllInvitados()
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `nombre`,
+    `apellidoP`,
+    `apellidoM`,
+    `claveIdentificacion`,
+    `contraASR`,
+    `fdn`
+  FROM
+    `usuarios`
+  WHERE
+    `id_rol` = 2 AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS DeactivateInvitado $$
+CREATE PROCEDURE DeactivateInvitado(
+  idusuarioParam INT
+)
+BEGIN
+  START TRANSACTION;
+  UPDATE `usuarios`
+  SET
+    `estado` = 0
+  WHERE 
+    `idusuario` = idusuarioParam AND
+    `id_rol` = 2 AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+-----CRUD "PRODUCTOS"
+DELIMITER $$
+DROP PROCEDURE IF EXISTS CreateProducto $$
+CREATE PROCEDURE CreateProducto(
+  inventory_numParam BIGINT,
+  serial_numParam BIGINT,
+  colorParam NVARCHAR(45),
+  descripcionParam TEXT,
+  date_modifiedParam DATE,
+  brandParam NVARCHAR(45),
+  modelParam NVARCHAR(45),
+  idareaParam INT,
+  idubicacionParam INT
+)
+BEGIN
+  START TRANSACTION;
+  INSERT INTO `productos`(
+    `inventory_num`,
+    `serial_num`,
+    `color`,
+    `descripcion`,
+    `date_modified`,
+    `brand`,
+    `model`,
+    `idarea`,
+    `idubicacion`
+  )VALUES(
+    inventory_numParam,
+    serial_numParam,
+    colorParam,
+    descripcionParam,
+    date_modifiedParam,
+    brandParam,
+    modelParam,
+    idareaParam,
+    idubicacionParam
+  );
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS UpdateProducto $$
+CREATE PROCEDURE UpdateProducto(
+  idproductoParam INT,
+  inventory_numParam BIGINT,
+  serial_numParam BIGINT,
+  colorParam NVARCHAR(45),
+  descripcionParam TEXT,
+  date_modifiedParam DATE,
+  brandParam NVARCHAR(45),
+  modelParam NVARCHAR(45),
+  idareaParam INT,
+  idubicacionParam INT
+)
+BEGIN
+  START TRANSACTION;
+  UPDATE `productos`
+  SET
+    `inventory_num` = inventory_numParam,
+    `serial_num` = serial_numParam,
+    `color` = colorParam,
+    `descripcion` = descripcionParam,
+    `date_modified` = date_modifiedParam,
+    `brand` = brandParam,
+    `model` = modelParam,
+    `idarea` = idareaParam,
+    `idubicacion` = idubicacionParam
+  WHERE 
+    `idproducto` = idproductoParam AND
+    `estado` = 1
+  ;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetProductoByID $$
+CREATE PROCEDURE GetProductoByID(
+  idproductoParam INT
+)
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `inventory_num`,
+    `serial_num`,
+    `color`,
+    `descripcion`,
+    `date_modified`,
+    `brand`,
+    `model`,
+    `idarea`,
+    `idubicacion`
+  FROM
+    `productos`
+  WHERE
+    `idproducto` = idproductoParam AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetAllProductos $$
+CREATE PROCEDURE GetAllProductos()
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `inventory_num`,
+    `serial_num`,
+    `color`,
+    `descripcion`,
+    `date_modified`,
+    `brand`,
+    `model`,
+    `idarea`,
+    `idubicacion`
+  FROM
+    `productos`
+  WHERE
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS DeactivateProducto $$
+CREATE PROCEDURE DeactivateProducto(
+  idproductoParam INT
+)
+BEGIN
+  START TRANSACTION;
+  UPDATE `productos`
+  SET
+    `estado` = 0
+  WHERE `idproducto` = idproductoParam AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
