@@ -156,6 +156,49 @@ VALUES(
 
 ---------------------------------STORED PROCEDURES
 
+-----FOR LOGIN
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetUserForLogin $$
+CREATE PROCEDURE GetUserForLogin(
+  userName NVARCHAR(20)
+)
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `contraASR`
+  FROM
+    `usuarios`
+  WHERE
+    `claveIdentificacion` = userName AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE GetUserByCredentials(
+  userName NVARCHAR(20)
+)
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `nombre`,
+    `apellidoP`,
+    `apellidoM`,
+    `claveIdentificacion`,
+    `contraASR`,
+    `fdn`,
+    `idrol`
+  FROM
+    `usuarios`
+  WHERE
+    `claveIdentificacion` = userName AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+
 -----CRUD "INVITADO"
 DELIMITER $$
 DROP PROCEDURE IF EXISTS CreateInvitado $$

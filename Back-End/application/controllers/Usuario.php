@@ -17,7 +17,20 @@ class Usuario extends CI_Controller{
 	use REST_Controller {
 		REST_Controller::__construct as private __resTraitConstruct;
     }
-    
+	
+	public function login(){
+		$this->load->model('UsuarioM');
+		$payload = $this->$this->input->get('payload');
+		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra))
+			$resulSet = $this->UsuarioM->GetUserByUserName($payload->userName,$payload->contra);
+		else
+			$resulSet = array("Error" => 100, "Message" => "Credentials are incorrect.");
+		
+		$this->response($resulSet);
+	}
+
+
+
 	public function test_get(){
         $this->load->model('UsuarioM');
         $array = $this->UsuarioM->getUsuarioID();

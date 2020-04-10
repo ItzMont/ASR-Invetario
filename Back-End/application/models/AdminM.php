@@ -7,6 +7,10 @@
             $this->load->database();
         }
 
+        protected function(){
+            
+        } 
+
         
         //=================FUNCIONES DE TIPO POST=================//
         function validatedLogin($email,$contra){

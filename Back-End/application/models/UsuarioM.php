@@ -1,10 +1,25 @@
 <?php
     class UsuarioM extends CI_Model {
         
-        
         public function __construct(){
             parent::__construct();
             $this->load->database();
+        }
+
+        private function verifiyCount($userName,$contra){
+            $resultSet = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).",".$this->db->escape($contra).")");
+            if(!empty($resultSet)){
+                $passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
+                if(password_verify($resultSet, $password_verify($password, $hash))){
+                    return true;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        private function GetUserByUserName(){
+            return $this->db->query("CALL GetUserByCredentials(".$this->db->escape($userName));
         }
 
         function getUsuarioID(){
