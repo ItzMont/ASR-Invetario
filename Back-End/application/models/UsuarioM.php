@@ -18,8 +18,24 @@
             }
         }
 
-        private function GetUserByUserName(){
-            return $this->db->query("CALL GetUserByCredentials(".$this->db->escape($userName));
+        private function ContinueLoginSucceful($userName){
+            $resultSet = $this->db->query("CALL InitSession(".$this->db->escape($userName);
+            if(!empty($resultSet)){
+                $arrData = array("idUser" => $resultSet['idusuario'],"session" =>  $resultSet['idsession']);
+                $token = AUTHORIZATION::generateToken($arrData);
+                if(CreateSession($resultSet['idsession'],$resultSet['idusuario'],$token)){
+                    $resultSet = array_push($resultSet,$token);
+                }else{
+                    return array("error" => "No se pudo crear la sesion.");
+                }
+            }
+            return $resultSet;
+        }
+
+        
+
+        private function CreateSession($idsession,$idUser,$token){
+            return $this->db->query("CALL CreateSession(".$this->db->escape($idsession).",".$this->db->escape($idUser).",".$this->db->escape($token).")");
         }
 
         function getUsuarioID(){

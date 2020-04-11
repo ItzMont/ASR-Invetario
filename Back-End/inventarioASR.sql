@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `inventarioASR`.`sesiones` (
     `idsesion` INT NOT NULL AUTO_INCREMENT,
     `idusuario` INT NOT NULL,
     `token` NVARCHAR(150) NOT NULL,
-    `tiempoIni` TIMESTAMP NOT NULL,
+    `tiempoIni` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     `tiempoFin` TIMESTAMP NULL,
     `estado` TINYINT NOT NULL DEFAULT 1,
     PRIMARY KEY (`idsesion`),
@@ -176,28 +176,73 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE GetUserByCredentials(
+DROP PROCEDURE IF EXISTS InitSession $$
+CREATE PROCEDURE InitSession(
   userName NVARCHAR(20)
 )
 BEGIN
+  DECLARE idsession INT DEFAULT -1;
+  DECLARE iduser INT DEFAULT -1;
+
   START TRANSACTION;
+
   SELECT
-    `nombre`,
-    `apellidoP`,
-    `apellidoM`,
-    `claveIdentificacion`,
-    `contraASR`,
-    `fdn`,
-    `idrol`
+    `idusuario`
+  INTO iduser
   FROM
     `usuarios`
   WHERE
     `claveIdentificacion` = userName AND
     `estado` = 1;
+
+  INSERT INTO `sesiones`(
+    `idusuario`
+  )
+  VALUES(
+    iduser
+  );
+
+  SELECT LAST_INSERT_ID() INTO idsession;
+  
+  SELECT
+    *,
+    idsession
+  FROM
+    (
+      SELECT
+        `idusuario`,
+        `nombre`,
+        `apellidoP`,
+        `apellidoM`,
+        `claveIdentificacion`,
+        `fdn`,
+        `role_type`
+      FROM
+        `usuarios` AS u LEFT JOIN `roles` AS r ON u.`idrol` = r.`idrol`
+      WHERE
+        `claveIdentificacion` = userName AND
+        `estado` = 1
+  )AS myResultQuery;
   COMMIT;
 END $$
 DELIMITER ;
 
+DELIMITER $$
+DROP PROCEDURE IF EXISTS CreateSession $$
+CREATE PROCEDURE CreateSession(
+  idsessionParam INT,
+  idusuarioParam INT,
+  tokenParam NVARCHAR(150)
+)
+BEGIN
+  START TRANSACTION;
+  UPDATE `sesiones`
+  SET `token` = tokenParam
+  WHERE
+    `idsesion` = idsessionParam;
+  COMMIT;
+END $$
+DELIMITER ;
 
 -----CRUD "INVITADO"
 DELIMITER $$
