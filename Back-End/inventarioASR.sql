@@ -143,17 +143,6 @@ CREATE TABLE IF NOT EXISTS `inventarioASR`.`sesiones` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
----------------------------------LOAD ROLES
-INSERT INTO `inventarioASR`.`roles`(
-    `role_type`
-)
-VALUES(
-    "ADMINISTRADOR"
-),
-(
-    "INVITADO"
-);
-
 ---------------------------------STORED PROCEDURES
 
 -----FOR LOGIN
@@ -202,11 +191,10 @@ BEGIN
     iduser
   );
 
-  SELECT LAST_INSERT_ID() INTO idsession;
-  
+  SET idsession = LAST_INSERT_ID();
+
   SELECT
-    *,
-    idsession
+    *
   FROM
     (
       SELECT
@@ -218,10 +206,11 @@ BEGIN
         `fdn`,
         `role_type`
       FROM
-        `usuarios` AS u LEFT JOIN `roles` AS r ON u.`idrol` = r.`idrol`
+        `usuarios` AS U LEFT JOIN `roles` AS R ON u.`idrol` = r.`idrol`
       WHERE
         `claveIdentificacion` = userName AND
-        `estado` = 1
+        U.`estado` = 1 AND
+        R.`estado` = 1 
   )AS myResultQuery;
   COMMIT;
 END $$
@@ -506,6 +495,65 @@ BEGIN
     `estado` = 0
   WHERE `idproducto` = idproductoParam AND
     `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+---------------------------------LOAD ROLES
+INSERT INTO `inventarioASR`.`roles`(
+    `role_type`
+)
+VALUES(
+    "ADMINISTRADOR"
+),
+(
+    "INVITADO"
+);
+
+--DUMMY ADMIN
+INSERT INTO `usuarios`(
+  `claveIdentificacion`,
+  `contraASR`
+)
+VALUES(
+  "juan@gmail.com",
+  "$2y$15$Mp00GUu/xBJpPKWPPJsVx.oWmOBl2H05/lTlC.EZbJ1FoqjQIxT1G"
+);
+
+
+--Query test
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS InitSession $$
+CREATE PROCEDURE InitSession(
+  userName NVARCHAR(20),
+  OUT idsession INT
+)
+BEGIN
+  DECLARE iduser INT DEFAULT -1;
+
+  START TRANSACTION;
+
+  SELECT
+    `idusuario`
+  INTO iduser
+  FROM
+    `usuarios`
+  WHERE
+    `claveIdentificacion` = userName AND
+    `estado` = 1;
+
+  INSERT INTO `sesiones`(
+    `idusuario`
+  )
+  VALUES(
+    iduser
+  );
+
+  SET idsession = LAST_INSERT_ID();
+
+  SELECT idsession AS id;
+
   COMMIT;
 END $$
 DELIMITER ;

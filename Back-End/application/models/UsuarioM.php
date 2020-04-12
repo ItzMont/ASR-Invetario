@@ -7,10 +7,12 @@
         }
 
         public function verifiyCount($userName,$contra){
-            $passHashed = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).")");
-            if(!empty($resultSetPass)){
+            $query = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).")");
+            $passHashed =  $query->row_array();
+            mysqli_next_result( $this->db->conn_id);
+            if(!empty($passHashed)){
                 //$passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
-                if(password_verify($contra,$passHashed)){
+                if(password_verify($contra,$passHashed['contraASR'])){
                     return true;
                 }
             }else{
@@ -19,7 +21,9 @@
         }
 
         public function ContinueLoginSucceful($userName){
-            $resultSet = $this->db->query("CALL InitSession(".$this->db->escape($userName).")");
+            $query = $this->db->query("CALL InitSession(".$this->db->escape($userName).")");
+            $resultSet = $query->result();
+            //mysqli_next_result( $this->db->conn_id);
             if(!empty($resultSet)){
                 $arrData = array("idUser" => $resultSet['idusuario'],"session" =>  $resultSet['idsession']);
                 $token = AUTHORIZATION::generateToken($arrData);
@@ -35,7 +39,10 @@
         
 
         private function CreateSession($idsession,$idUser,$token){
-            return $this->db->query("CALL CreateSession(".$this->db->escape($idsession).",".$this->db->escape($idUser).",".$this->db->escape($token).")");
+            $query = $this->db->query("CALL CreateSession(".$this->db->escape($idsession).",".$this->db->escape($idUser).",".$this->db->escape($token).")");
+            $result = $query->row_array();
+            mysqli_next_result($this->db->conn_id);
+            return $result;
         }
 
         function getUsuarioID(){

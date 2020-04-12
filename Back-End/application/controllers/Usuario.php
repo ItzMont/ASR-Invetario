@@ -24,6 +24,9 @@ class Usuario extends CI_Controller{
 		
 		$this->load->model('UsuarioM');
 		$payload = json_decode($this->input->post('payload'));
+		//$resulSet = $this->UsuarioM->verifiyCount($payload->userName,$payload->contra);
+		$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
+		/*
 		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
 			$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
 			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
@@ -34,7 +37,7 @@ class Usuario extends CI_Controller{
 			
 					$this->response($resulSet);
 				}else{
-					$resulSet = array("error" => 101, "message" => "Contact the administrator.");
+					$resulSet = array("error" => 102, "message" => "Contact the administrator.");
 				}
 			}else{
 				$resulSet = array("error" => 101, "message" => "Contact the administrator.");
@@ -42,7 +45,7 @@ class Usuario extends CI_Controller{
 		}
 		else
 			$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
-		
+		*/
 		$this->response($resulSet);
 	}
 
