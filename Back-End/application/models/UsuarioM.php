@@ -6,11 +6,11 @@
             $this->load->database();
         }
 
-        private function verifiyCount($userName,$contra){
-            $resultSet = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).",".$this->db->escape($contra).")");
-            if(!empty($resultSet)){
-                $passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
-                if(password_verify($resultSet, $password_verify($password, $hash))){
+        public function verifiyCount($userName,$contra){
+            $passHashed = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).")");
+            if(!empty($resultSetPass)){
+                //$passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
+                if(password_verify($contra,$passHashed)){
                     return true;
                 }
             }else{
@@ -18,8 +18,8 @@
             }
         }
 
-        private function ContinueLoginSucceful($userName){
-            $resultSet = $this->db->query("CALL InitSession(".$this->db->escape($userName);
+        public function ContinueLoginSucceful($userName){
+            $resultSet = $this->db->query("CALL InitSession(".$this->db->escape($userName).")");
             if(!empty($resultSet)){
                 $arrData = array("idUser" => $resultSet['idusuario'],"session" =>  $resultSet['idsession']);
                 $token = AUTHORIZATION::generateToken($arrData);

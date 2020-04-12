@@ -12,19 +12,22 @@ require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
 
+require_once 'SessionController.php';
+
 class Usuario extends CI_Controller{
 
 	use REST_Controller {
 		REST_Controller::__construct as private __resTraitConstruct;
     }
 	
-	public function login(){
+	public function login_post(){
+		
 		$this->load->model('UsuarioM');
-		$payload = $this->$this->input->get('payload');
-		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra))
+		$payload = json_decode($this->input->post('payload'));
+		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
 			$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
 			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
-				if(SessionController::CreateSession($resulSet['idsession']),$resulSet['idusuario']),$resulSet['token'])){
+				if(SessionController::CreateSession($resulSet['idsession'],$resulSet['idusuario'],$resulSet['token'])){
 					
 					unset($resulSet['idsession']);
 					unset($resulSet['idusuario']);
@@ -36,6 +39,7 @@ class Usuario extends CI_Controller{
 			}else{
 				$resulSet = array("error" => 101, "message" => "Contact the administrator.");
 			}
+		}
 		else
 			$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
 		
@@ -43,7 +47,7 @@ class Usuario extends CI_Controller{
 	}
 
 
-
+	/*
 	public function test_get(){
         $this->load->model('UsuarioM');
         $array = $this->UsuarioM->getUsuarioID();
@@ -136,5 +140,5 @@ class Usuario extends CI_Controller{
 			$respuesta = array("respuesta" => "Error al ejecutar su operación", "error" => 12);
 		}
 		$this->response($respuesta);
-	}
+	}*/
 }
