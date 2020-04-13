@@ -12,8 +12,6 @@ require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
 
-//require_once 'SessionController.php';
-
 class Usuario extends CI_Controller{
 
 	use REST_Controller {
@@ -24,8 +22,6 @@ class Usuario extends CI_Controller{
 		
 		$this->load->model('UsuarioM');
 		$payload = json_decode($this->input->post('payload'));
-		//$resulSet = $this->UsuarioM->verifiyCount($payload->userName,$payload->contra);
-		//$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
 		
 		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
 			$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
@@ -36,21 +32,9 @@ class Usuario extends CI_Controller{
 				unset($resulSet['idsession']);
 				unset($resulSet['idusuario']);
 		
-				$resulSet = array_merge($resulSet,["token" => $token]);
+				$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
 				$this->response($resulSet);
 
-				/*
-					Pensar si hacerlo de este modo o de un modo mas simple
-				if(SessionController::CreateSession($resulSet['idsession'],$resulSet['idusuario'],$token)){
-					
-					unset($resulSet['idsession']);
-					unset($resulSet['idusuario']);
-			
-					$resulSet = array_merge($resulSet,["token" => $token]);
-					$this->response($resulSet);
-				}else{
-					$resulSet = array("error" => 102, "message" => "Contact the administrator.");
-				}*/
 			}else{
 				$resulSet = array("error" => 101, "message" => "Contact the administrator.");
 			}
@@ -61,99 +45,27 @@ class Usuario extends CI_Controller{
 		$this->response($resulSet);
 	}
 
-
-	/*
-	public function test_get(){
-        $this->load->model('UsuarioM');
-        $array = $this->UsuarioM->getUsuarioID();
-        $result = $array->result_array();
-		$this->response($result);
-	}
-
-	//=================FUNCIONES DE TIPO POST=================//
-	public function login_post(){
-		$email = $this->input->post('email');
-		$contra = $this->input->post('contra');
+	public function logout_post(){
 		$this->load->model('UsuarioM');
-		$result = $this->UsuarioM->validatedLogin($email,$contra);
-		$result = $result->result_array();
-		if(!empty($result)){
-			$respuesta = array("respuesta" => "Inicio de sesion exitoso","error" => 0);
-		}else if(empty($result)){
-			$respuesta = array("respuesta" => "Error comprueba sus credenciales", "error" => 11);
-		}else{
-			$respuesta = array("respuesta" => "Error al ejecutar su operación", "error" => 12);
-		}
-		$this->response($respuesta);
-	}
+		$payload = json_decode($this->input->post('payload'));
 
-	public function createAbogado_post(){
-		$nombre = $this->input->post('nom');
-		$apellidoP = $this->input->post('apeP');
-		$apellidoM = $this->input->post('apeM');
-		$email = $this->input->post('email');
-		$pass = $this->input->post('contra');
-		$fechaNac = $this->input->post('fechaN');
-		$cuentaBanco = $this->input->post('cuentBanc');
-		$costoBase = $this->input->post('costBas');
-		$descripcion = $this->input->post('descri');
-		$cedulaPro = $this->input->post('ceduPro');
-		$this->load->model('UsuarioM');
-		$resultId = $this->UsuarioM->createAbo($nombre,$apellidoP,$apellidoM,$email,$pass,$fechaNac,$cuentaBanco,$costoBase,$descripcion,$cedulaPro);
-		if($resultId != false){
-			$respuesta = array("respuesta" => "Se creo el abogado exitosamente","id:" => $resultId,"error" => 0);
-		}else{
-			$respuesta = array("respuesta" => "Error al crear cliente", "error" => 11);
-		}
-		$this->response($respuesta);
-	}
+		
+		$arrOfToken = AUTHORIZATION::validateToken($payload->token);
 
-	public function createClient_post(){
-		$nombre = $this->input->post('nom');
-		$apellidoP = $this->input->post('apeP');
-		$apellidoM = $this->input->post('apeM');
-		$email = $this->input->post('email');
-		$pass = $this->input->post('contra');
-		$fechaNac = $this->input->post('fechaN');
-		$metodoPago = $this->input->post('metoPago');
-		$this->load->model('UsuarioM');
-		$resultId = $this->UsuarioM->createCli($nombre,$apellidoP,$apellidoM,$email,$pass,$fechaNac,$metodoPago);
-		if($resultId != false){
-			$respuesta = array("respuesta" => "Se creo el cliente exitosamente","id:" => $resultId,"error" => 0);
-		}else{
-			$respuesta = array("respuesta" => "Error al crear cliente", "error" => 11);
-		}
-		$this->response($respuesta);
-	}
+		/*
+			Revisar si el token no esta corrupto
+		*/
 
-	//=================FUNCIONES DE TIPO GET=================//
-	public function abogadoID_get(){
-		$id = $this->input->get('id');
-        $this->load->model('UsuarioM');
-        $array = $this->UsuarioM->getAbogadoID($id);
-        $result = $array->result_array();
-		if(!empty($result)){
-			$respuesta = array("respuesta" => "Se obtuvieron los datos correctamente.","resultado" => $result,"error" => 0);
-		}else if(empty($result)){
-			$respuesta = array("respuesta" => "Error compruebe su informacion", "error" => 11);
-		}else{
-			$respuesta = array("respuesta" => "Error al ejecutar su operación", "error" => 12);
-		}
-		$this->response($respuesta);
-	}
+		$idUser = $arrOfToken->idUser;
 
-	public function clienteID_get(){
-		$id = $this->input->get('id');
-        $this->load->model('UsuarioM');
-        $array = $this->UsuarioM->getClientID($id);
-        $result = $array->result_array();
-		if(!empty($result)){
-			$respuesta = array("respuesta" => "Se obtuvieron los datos correctamente.","resultado" => $result,"error" => 0);
-		}else if(empty($result)){
-			$respuesta = array("respuesta" => "Error compruebe su informacion", "error" => 11);
+		$resultQuery = $this->UsuarioM->CloseSession($idUser);
+		
+		if(!array_key_exists('error',$resultQuery)){
+			$resulSet = array("error" => 0);
 		}else{
-			$respuesta = array("respuesta" => "Error al ejecutar su operación", "error" => 12);
+			$resulSet = array("error" => 103, "message" => "Contact the administrator.");
 		}
-		$this->response($respuesta);
-	}*/
+
+		$this->response($resulSet);
+	}
 }
