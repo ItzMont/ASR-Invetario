@@ -12,7 +12,7 @@ require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
 
-require_once 'SessionController.php';
+//require_once 'SessionController.php';
 
 class Usuario extends CI_Controller{
 
@@ -25,13 +25,22 @@ class Usuario extends CI_Controller{
 		$this->load->model('UsuarioM');
 		$payload = json_decode($this->input->post('payload'));
 		//$resulSet = $this->UsuarioM->verifiyCount($payload->userName,$payload->contra);
-		$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
+		//$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
 		
 		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
 			$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
 			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
 				$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
 				$token = AUTHORIZATION::generateToken($arrToToken);
+
+				unset($resulSet['idsession']);
+				unset($resulSet['idusuario']);
+		
+				$resulSet = array_merge($resulSet,["token" => $token]);
+				$this->response($resulSet);
+
+				/*
+					Pensar si hacerlo de este modo o de un modo mas simple
 				if(SessionController::CreateSession($resulSet['idsession'],$resulSet['idusuario'],$token)){
 					
 					unset($resulSet['idsession']);
@@ -41,7 +50,7 @@ class Usuario extends CI_Controller{
 					$this->response($resulSet);
 				}else{
 					$resulSet = array("error" => 102, "message" => "Contact the administrator.");
-				}
+				}*/
 			}else{
 				$resulSet = array("error" => 101, "message" => "Contact the administrator.");
 			}

@@ -195,7 +195,8 @@ CREATE PROCEDURE CreateSession(
   OUT idsession INT
 )
 BEGIN
-  
+  CALL LogOut(iduser);
+
   INSERT INTO `sesiones`(
     `idusuario`
   )
@@ -210,6 +211,26 @@ BEGIN
   COMMIT;
 END $$
 DELIMITER ;
+
+-----FOR LOGOUT
+DELIMITER $$
+DROP PROCEDURE IF EXISTS LogOut $$
+CREATE PROCEDURE LogOut(
+  iduserParam INT
+)
+BEGIN
+
+  UPDATE `sesiones`
+  SET 
+    `estado` = 0,
+    `tiempoFin`= CURRENT_TIMESTAMP()
+  WHERE 
+    `idusuario` = iduserParam AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
 
 -----CRUD "INVITADO"
 DELIMITER $$
