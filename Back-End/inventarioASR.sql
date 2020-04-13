@@ -132,7 +132,6 @@ DROP TABLE IF EXISTS `inventarioASR`.`sesiones`;
 CREATE TABLE IF NOT EXISTS `inventarioASR`.`sesiones` (
     `idsesion` INT NOT NULL AUTO_INCREMENT,
     `idusuario` INT NOT NULL,
-    `token` NVARCHAR(150) NOT NULL,
     `tiempoIni` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     `tiempoFin` TIMESTAMP NULL,
     `estado` TINYINT NOT NULL DEFAULT 1,
@@ -190,8 +189,8 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS InitSession $$
-CREATE PROCEDURE InitSession(
+DROP PROCEDURE IF EXISTS CreateSession $$
+CREATE PROCEDURE CreateSession(
   iduser INT,
   OUT idsession INT
 )
@@ -208,22 +207,6 @@ BEGIN
 
   SELECT idsession AS idsession; 
   
-  COMMIT;
-END $$
-DELIMITER ;
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS CreateSession $$
-CREATE PROCEDURE CreateSession(
-  idsessionParam INT,
-  tokenParam NVARCHAR(150)
-)
-BEGIN
-  START TRANSACTION;
-  UPDATE `sesiones`
-  SET `token` = tokenParam
-  WHERE
-    `idsesion` = idsessionParam;
   COMMIT;
 END $$
 DELIMITER ;

@@ -27,22 +27,16 @@
             $dataUser = $query->row_array();
             mysqli_next_result( $this->db->conn_id);
             if(!empty($dataUser)){
-                $query = $this->db->query("CALL InitSession(".$this->db->escape($dataUser['idusuario']).",@idsession)");
+                $query = $this->db->query("CALL CreateSession(".$this->db->escape($dataUser['idusuario']).",@idsession)");
                 $idsessionUser = $query->row_array();
                 mysqli_next_result( $this->db->conn_id);
                 // return  $idsessionUser;
                 if(!empty($idsessionUser)){
-                    $arrToToken = array("idUser" => $dataUser['idusuario'],"session" => $idsessionUser);
-                    $token = AUTHORIZATION::generateToken($arrToToken);
-                    //Imprimiremos el valor cuando se hace un update
-                    $resultCreat = $this->CreateSessionUser($idsessionUser['idsession'],$dataUser['idusuario'],$token);
-                    
-                    return $resultCreat;
-                    /*
-                    if(){
-
-                    }*/
+                    $resultSet = array_merge($dataUser,$idsessionUser);
+                    //$resultSet = $dataUser;//array_push($dataUser,["idsesion" => $idsessionUser["idsession"]],["token" => $token]);
+                    //$dataUser = array_push($dataUser,$idsessionUser,['token'=>$token]);
                 }else{
+                    unset($dataUser);
                     $resultSet = array("error" => 11, "message" => "No se pudo crear una session para el usuario");
                 }
             }else{
@@ -63,14 +57,14 @@
                     return array("error" => "No se pudo crear la sesion.");
                 }
             }*/
-            // return $resultSet;
+            return $resultSet;
         }
 
         public function CreateSessionUser($idsession,$token){
-            $query = $this->db->query("CALL CreateSession(".$this->db->escape("1").",".$this->db->escape("Hola").")");
+           // $query = $this->db->query("CALL CreateSession(".$this->db->escape("1").",".$this->db->escape("Hola").")");
             
             //Sirve 
-            $query = $this->db->affected_rows();
+            //$query = $this->db->affected_rows();
             // if($query){
             //     return true;
             // }else{
