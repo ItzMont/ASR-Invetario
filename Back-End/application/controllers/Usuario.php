@@ -21,10 +21,12 @@ class Usuario extends CI_Controller{
 	public function login_post(){
 		
 		$this->load->model('UsuarioM');
-		$payload = json_decode($this->input->post('payload'));
+		//$payload = json_decode($this->input->post('payload'));
+		$userName = $this->input->post('userName');
+		$contra = $this->input->post('contra');
 		
-		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
-			$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
+		if($this->UsuarioM->verifiyCount($userName,$contra)){
+			$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
 			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
 				$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
 				$token = AUTHORIZATION::generateToken($arrToToken);
@@ -67,5 +69,21 @@ class Usuario extends CI_Controller{
 		}
 
 		$this->response($resulSet);
+	}
+
+	public function test_post(){
+		//$payload = $this->input->post('payload');
+
+		//$this->response(array("key" => $payload['userName']));
+		//$this->response(array("key" => 1));
+		//$payload = json_decode($this->input->post(true));
+		$userName = $this->input->post('userName');
+		if(!empty($userName)){
+			$this->response(array("userName" => $userName));
+		}else{
+			$this->response(array("key" => "No llega valor"));
+		}
+
+
 	}
 }
