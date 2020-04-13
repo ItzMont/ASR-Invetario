@@ -10,6 +10,8 @@
     <!--Estilos personalizados css-->
     <link type="text/css" rel="stylesheet" href="css/estilos.css">
 
+    <link 
+
     <title>ASR Inventory</title>
   </head>
 
@@ -32,19 +34,19 @@
         </div>
 
         <div class="col-12">
-          <form>
+          <form id="formID">
             <div class="form-group">
               <center><label for="exampleInputEmail1">Ingrese su Usuario</label></center>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de Usuario">
+              <input type="email" class="form-control" id="userInput" aria-describedby="emailHelp" required placeholder="Nombre de Usuario">
               <small id="emailHelp" class="form-text text-muted"></small>
             </div>
             <div class="form-group">
               <center><label for="exampleInputPassword1">Ingrese su Contraseña</label></center>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+              <input type="password" class="form-control" id="contraInput" required placeholder="Contraseña">
             </div>
             <center>
             <!--<button type="submit" class="btn btn-outline-dark" onclick="location.href='dash.html'">Ingresar</button>-->
-            <a href="dash.html"><input type="button" class="btn btn-outline-dark" value="Ingresar"></a>  
+            <a href="dash.html"><input type="submit" class="btn btn-outline-dark" value="Ingresar"></a>  
             </center>
           </form>
           <br>
@@ -69,6 +71,7 @@
     <script src="js/jquery-3.4.1.min.js" ></script>
     <script src="js/popper.min.js" ></script>
     <script src="js/bootstrap.min.js" ></script>
+    <script src="js/User.js"></script>
   </body>
 </html>
 
