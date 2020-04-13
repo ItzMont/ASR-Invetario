@@ -26,26 +26,26 @@ class Usuario extends CI_Controller{
 		$payload = json_decode($this->input->post('payload'));
 		//$resulSet = $this->UsuarioM->verifiyCount($payload->userName,$payload->contra);
 		$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
-		/*
-		if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
-			$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
-			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
-				if(SessionController::CreateSession($resulSet['idsession'],$resulSet['idusuario'],$resulSet['token'])){
+		
+		// if($this->UsuarioM->verifiyCount($payload->userName,$payload->contra)){
+		// 	$resulSet = $this->UsuarioM->ContinueLoginSucceful($payload->userName);
+		// 	if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
+		// 		if(SessionController::CreateSession($resulSet['idsession'],$resulSet['idusuario'],$resulSet['token'])){
 					
-					unset($resulSet['idsession']);
-					unset($resulSet['idusuario']);
+		// 			unset($resulSet['idsession']);
+		// 			unset($resulSet['idusuario']);
 			
-					$this->response($resulSet);
-				}else{
-					$resulSet = array("error" => 102, "message" => "Contact the administrator.");
-				}
-			}else{
-				$resulSet = array("error" => 101, "message" => "Contact the administrator.");
-			}
-		}
-		else
-			$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
-		*/
+		// 			$this->response($resulSet);
+		// 		}else{
+		// 			$resulSet = array("error" => 102, "message" => "Contact the administrator.");
+		// 		}
+		// 	}else{
+		// 		$resulSet = array("error" => 101, "message" => "Contact the administrator.");
+		// 	}
+		// }
+		// else
+		// 	$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
+		
 		$this->response($resulSet);
 	}
 

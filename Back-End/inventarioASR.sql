@@ -165,25 +165,38 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS InitSession $$
-CREATE PROCEDURE InitSession(
-  userName NVARCHAR(20)
+DROP PROCEDURE IF EXISTS GetUserByUserName $$
+CREATE PROCEDURE GetUserByUserName(
+  userNameParam NVARCHAR(20)
 )
 BEGIN
-  DECLARE idsession INT DEFAULT -1;
-  DECLARE iduser INT DEFAULT -1;
-
   START TRANSACTION;
-
   SELECT
-    `idusuario`
-  INTO iduser
+    `idusuario`,
+    `nombre`,
+    `apellidoP`,
+    `apellidoM`,
+    `claveIdentificacion`,
+    `fdn`,
+    `role_type`
   FROM
-    `usuarios`
+    `usuarios` AS U LEFT JOIN `roles` AS R ON U.`idrol` = R.`idrol`
   WHERE
-    `claveIdentificacion` = userName AND
-    `estado` = 1;
+    `claveIdentificacion` = userNameParam AND 
+    U.`estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS InitSession $$
+CREATE PROCEDURE InitSession(
+  iduser INT,
+  OUT idsession INT
+)
+BEGIN
+  
   INSERT INTO `sesiones`(
     `idusuario`
   )
@@ -193,25 +206,8 @@ BEGIN
 
   SET idsession = LAST_INSERT_ID();
 
-  SELECT
-    *
-  FROM
-    (
-      SELECT
-        `idusuario`,
-        `nombre`,
-        `apellidoP`,
-        `apellidoM`,
-        `claveIdentificacion`,
-        `fdn`,
-        `role_type`
-      FROM
-        `usuarios` AS U LEFT JOIN `roles` AS R ON u.`idrol` = r.`idrol`
-      WHERE
-        `claveIdentificacion` = userName AND
-        U.`estado` = 1 AND
-        R.`estado` = 1 
-  )AS myResultQuery;
+  SELECT idsession AS idsession; 
+  
   COMMIT;
 END $$
 DELIMITER ;
@@ -220,7 +216,6 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS CreateSession $$
 CREATE PROCEDURE CreateSession(
   idsessionParam INT,
-  idusuarioParam INT,
   tokenParam NVARCHAR(150)
 )
 BEGIN
@@ -286,7 +281,6 @@ BEGIN
     `apellidoP` = apellidoPParam,
     `apellidoM` = apellidoMParam,
     `claveIdentificacion` = claveIdentificacionParam,
-    `contraASR` = contraASRParam,
     `fdn` = fdnParam
   WHERE `idusuario` = idusuarioParam AND
     `id_rol` = 2 AND
@@ -519,41 +513,3 @@ VALUES(
   "juan@gmail.com",
   "$2y$15$Mp00GUu/xBJpPKWPPJsVx.oWmOBl2H05/lTlC.EZbJ1FoqjQIxT1G"
 );
-
-
---Query test
-
-DELIMITER $$
-DROP PROCEDURE IF EXISTS InitSession $$
-CREATE PROCEDURE InitSession(
-  userName NVARCHAR(20),
-  OUT idsession INT
-)
-BEGIN
-  DECLARE iduser INT DEFAULT -1;
-
-  START TRANSACTION;
-
-  SELECT
-    `idusuario`
-  INTO iduser
-  FROM
-    `usuarios`
-  WHERE
-    `claveIdentificacion` = userName AND
-    `estado` = 1;
-
-  INSERT INTO `sesiones`(
-    `idusuario`
-  )
-  VALUES(
-    iduser
-  );
-
-  SET idsession = LAST_INSERT_ID();
-
-  SELECT idsession AS id;
-
-  COMMIT;
-END $$
-DELIMITER ;

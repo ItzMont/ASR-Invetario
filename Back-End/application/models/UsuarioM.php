@@ -20,10 +20,40 @@
             }
         }
 
+       
+
         public function ContinueLoginSucceful($userName){
-            $query = $this->db->query("CALL InitSession(".$this->db->escape($userName).")");
-            $resultSet = $query->result();
+            $query = $this->db->query("CALL GetUserByUserName(".$this->db->escape($userName).")");
+            $dataUser = $query->row_array();
+            mysqli_next_result( $this->db->conn_id);
+            if(!empty($dataUser)){
+                $query = $this->db->query("CALL InitSession(".$this->db->escape($dataUser['idusuario']).",@idsession)");
+                $idsessionUser = $query->row_array();
+                mysqli_next_result( $this->db->conn_id);
+                // return  $idsessionUser;
+                if(!empty($idsessionUser)){
+                    $arrToToken = array("idUser" => $dataUser['idusuario'],"session" => $idsessionUser);
+                    $token = AUTHORIZATION::generateToken($arrToToken);
+                    //Imprimiremos el valor cuando se hace un update
+                    $resultCreat = $this->CreateSessionUser($idsessionUser['idsession'],$dataUser['idusuario'],$token);
+                    
+                    return $resultCreat;
+                    /*
+                    if(){
+
+                    }*/
+                }else{
+                    $resultSet = array("error" => 11, "message" => "No se pudo crear una session para el usuario");
+                }
+            }else{
+                $resultSet = array("error" => 10, "message" => "No se encontraron datos del usuario.");
+            }
+
+
+            // $query = $this->db->query("CALL InitSession(".$this->db->escape($userName).",@idsession)");
+            // $resultSet = $query->result();
             //mysqli_next_result( $this->db->conn_id);
+            /*
             if(!empty($resultSet)){
                 $arrData = array("idUser" => $resultSet['idusuario'],"session" =>  $resultSet['idsession']);
                 $token = AUTHORIZATION::generateToken($arrData);
@@ -32,17 +62,29 @@
                 }else{
                     return array("error" => "No se pudo crear la sesion.");
                 }
-            }
-            return $resultSet;
+            }*/
+            // return $resultSet;
         }
 
-        
+        public function CreateSessionUser($idsession,$token){
+            $query = $this->db->query("CALL CreateSession(".$this->db->escape("1").",".$this->db->escape("Hola").")");
+            
+            //Sirve 
+            $query = $this->db->affected_rows();
+            // if($query){
+            //     return true;
+            // }else{
+            //     return false;
+            // }
 
-        private function CreateSession($idsession,$idUser,$token){
-            $query = $this->db->query("CALL CreateSession(".$this->db->escape($idsession).",".$this->db->escape($idUser).",".$this->db->escape($token).")");
-            $result = $query->row_array();
-            mysqli_next_result($this->db->conn_id);
-            return $result;
+            //$result = $query;
+            return $query;
+            // mysqli_next_result($this->db->conn_id);
+            // if(!empty($result)){
+            //     return true;
+            // }else{
+            //     return false;
+            // }
         }
 
         function getUsuarioID(){
