@@ -22,14 +22,14 @@ class Usuario extends CI_Controller{
 		
 		$this->load->model('UsuarioM');
 		//Forma normal dde recibir los datos
-		$payload = json_decode($this->input->post('payload'));
-		$userName = $payload->userName;
-		$contra = $payload->contra;
+		// $payload = json_decode($this->input->post('payload'));
+		// $userName = $payload->userName;
+		// $contra = $payload->contra;
 		
 		//=====================================================
 		//Forma para el Front-End de recuperar la informacion
-		// $userName = $this->input->post('userName');
-		// $contra = $this->input->post('contra');
+		$userName = $this->input->post('userName');
+		$contra = $this->input->post('contra');
 
 
 		if($this->UsuarioM->verifiyCount($userName,$contra)){
@@ -72,6 +72,39 @@ class Usuario extends CI_Controller{
 			
 			if(!array_key_exists('error',$resultQuery)){
 				$resulSet = array("error" => 0);
+			}else{
+				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+			}
+			
+		}catch(Exception $e){
+			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+		}
+
+		$this->response($resulSet);
+	}
+
+	public function getDash_get(){
+		$this->load->model('UsuarioM');
+		$this->load->model('UsuarioM');
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->get('payload'));
+		// $token = $payload->token;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->post('token');
+
+		try{
+			$arrOfToken = AUTHORIZATION::validateToken($token);
+
+			$idUser = $arrOfToken->idUser;
+			$idSesion = $arrOfToken->session;
+
+			$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
+			
+			// $resulSet = $resultQuery;
+
+			if(!array_key_exists('error',$resultQuery)){
+				$resulSet = $resultQuery;
 			}else{
 				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
 			}

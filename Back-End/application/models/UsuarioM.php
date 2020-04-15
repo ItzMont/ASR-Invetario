@@ -55,4 +55,27 @@
                 return array("error" => 202 );
             }
         }
+
+        public function GetDash($idUser,$idSesion){
+            if($this->ValidatedUser($idUser,$idSesion)){
+                $query = $this->db->query("CALL GetDashAdmin()");
+                $resultSet = $query->result_array(); 
+                mysqli_next_result($this->db->conn_id);
+            }else{
+                $resultSet = array("error" => 302 );
+            }
+
+            return $resultSet;
+        }
+
+        public function ValidatedUser($idUser,$idSesion){
+            $query = $this->db->query("CALL ValidatedSessionUser(".$this->db->escape($idUser).",".$this->db->escape($idSesion).")");
+            $result = $query->row_array();
+            mysqli_next_result($this->db->conn_id);
+            if(!empty($result)){//Refinar esto comprobando si el resultado efectivamente fue 1
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
