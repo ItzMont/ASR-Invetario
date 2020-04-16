@@ -91,7 +91,7 @@ class Usuario extends CI_Controller{
 		// $token = $payload->token;
 		//=====================================================
 		//Forma para el Front-End de recuperar la informacion
-		$token = $this->input->post('token');
+		$token = $this->input->get('token');
 
 		try{
 			$arrOfToken = AUTHORIZATION::validateToken($token);
