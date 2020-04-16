@@ -71,7 +71,7 @@
 
         public function UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca){
             if($this->ValidatedUser($idUser,$idSesion)){
-                $query = $this->db->query("CALL UpdateProductoAux("..$this->db->escape($idProduct)..",".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+                $query = $this->db->query("CALL UpdateProductoAux(".$this->db->escape($idProduct).",".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
                 //$resultSet = $query->result_array(); 
                 mysqli_next_result($this->db->conn_id);
                 $resultSet = array("error" => 0 );
