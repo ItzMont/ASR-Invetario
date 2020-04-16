@@ -449,6 +449,62 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS CreateProductoAux $$
+CREATE PROCEDURE CreateProductoAux(
+  inventory_numParam BIGINT,
+  serial_numParam BIGINT,
+  colorParam NVARCHAR(45),
+  brandParam NVARCHAR(45)
+)
+BEGIN
+  START TRANSACTION;
+  INSERT INTO `productos`(
+    `inventory_num`,
+    `serial_num`,
+    `color`,
+    `date_modified`,
+    `brand`,
+    `idarea`,
+    `idubicacion`
+  )VALUES(
+    inventory_numParam,
+    serial_numParam,
+    colorParam,
+    CURRENT_TIMESTAMP(),
+    brandParam,
+    1,
+    1
+  );
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS UpdateProductoAux $$
+CREATE PROCEDURE UpdateProductoAux(
+  idproductoParam INT,
+  inventory_numParam BIGINT,
+  serial_numParam BIGINT,
+  colorParam NVARCHAR(45),
+  brandParam NVARCHAR(45)
+)
+BEGIN
+  START TRANSACTION;
+  UPDATE `productos`
+  SET
+    `inventory_num` = inventory_numParam,
+    `serial_num` = serial_numParam,
+    `color` = colorParam,
+    `date_modified` = CURRENT_TIMESTAMP(),
+    `brand` = brandParam
+  WHERE 
+    `idproducto` = idproductoParam AND
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS UpdateProducto $$
 CREATE PROCEDURE UpdateProducto(
   idproductoParam INT,

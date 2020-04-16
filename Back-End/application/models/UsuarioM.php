@@ -56,6 +56,32 @@
             }
         }
 
+        public function InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca){
+            if($this->ValidatedUser($idUser,$idSesion)){
+                $query = $this->db->query("CALL CreateProductoAux(".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+                //$resultSet = $query->result_array(); 
+                mysqli_next_result($this->db->conn_id);
+                $resultSet = array("error" => 0 );
+            }else{
+                $resultSet = array("error" => 302 );
+            }
+
+            return $resultSet;
+        }
+
+        public function UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca){
+            if($this->ValidatedUser($idUser,$idSesion)){
+                $query = $this->db->query("CALL UpdateProductoAux("..$this->db->escape($idProduct)..",".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+                //$resultSet = $query->result_array(); 
+                mysqli_next_result($this->db->conn_id);
+                $resultSet = array("error" => 0 );
+            }else{
+                $resultSet = array("error" => 302 );
+            }
+
+            return $resultSet;
+        }
+        
         public function GetDash($idUser,$idSesion){
             if($this->ValidatedUser($idUser,$idSesion)){
                 $query = $this->db->query("CALL GetDashAdmin()");

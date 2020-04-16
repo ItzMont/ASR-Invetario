@@ -83,8 +83,90 @@ class Usuario extends CI_Controller{
 		$this->response($resulSet);
 	}
 
-	public function getDash_get(){
+	public function addProduct_post(){
 		$this->load->model('UsuarioM');
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->get('payload'));
+		// $token = $payload->token;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->post('token');
+		$material = $this->input->post('material');
+		$marca = $this->input->post('marca');
+		$color = $this->input->post('color');
+		$idLab = $this->input->post('idLab');
+		$idProd = $this->input->post('idProd');
+
+		$resulSet = $idProd;
+		
+		try{
+			$arrOfToken = AUTHORIZATION::validateToken($token);
+
+			$idUser = $arrOfToken->idUser;
+			$idSesion = $arrOfToken->session;
+
+			
+
+			$resultQuery = $this->UsuarioM->InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca);
+			
+			//$resulSet = $resultQuery;
+
+			if(array_key_exists('error',$resultQuery) && $resultQuery['error'] == 0){
+				$resulSet = $resultQuery;
+			}else{
+				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+			}
+			
+		}catch(Exception $e){
+			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+		}
+		
+		$this->response($resulSet);
+	}
+
+	public function updateProduct_post(){
+		$this->load->model('UsuarioM');
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->get('payload'));
+		// $token = $payload->token;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->post('token');
+		$idProduct = $this->input->post('idProduct');
+		$material = $this->input->post('material');
+		$marca = $this->input->post('marca');
+		$color = $this->input->post('color');
+		$idLab = $this->input->post('idLab');
+		$idProd = $this->input->post('idProd');
+
+		$resulSet = $idProd;
+		
+		try{
+			$arrOfToken = AUTHORIZATION::validateToken($token);
+
+			$idUser = $arrOfToken->idUser;
+			$idSesion = $arrOfToken->session;
+
+			
+
+			$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca);
+			
+			//$resulSet = $resultQuery;
+
+			if(array_key_exists('error',$resultQuery) && $resultQuery['error'] == 0){
+				$resulSet = $resultQuery;
+			}else{
+				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+			}
+			
+		}catch(Exception $e){
+			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+		}
+		
+		$this->response($resulSet);
+	}
+
+	public function getDash_get(){
 		$this->load->model('UsuarioM');
 		// //Forma normal dde recibir los datos
 		// $payload = json_decode($this->input->get('payload'));
