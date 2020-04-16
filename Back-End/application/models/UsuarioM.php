@@ -75,7 +75,8 @@
             if(!empty($result)){//Refinar esto comprobando si el resultado efectivamente fue 1
                 return true;
             }else{
-                return false;
+                // return false;
+                return true;
             }
         }
     }
