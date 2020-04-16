@@ -4,7 +4,7 @@ $(document).ready(function(){
     var id;
     
     $.ajax({
-        url: 'http://localhost/ASR-Inventario/Back-End/Usuario/getDash',
+        url: 'http://localhost:8080/Proyecto/Back-End/Usuario/getDash',
         type: 'GET',
         data: { 'token': token2 },
         datatype: "JSON",

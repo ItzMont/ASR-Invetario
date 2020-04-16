@@ -31,7 +31,7 @@ class Usuario extends CI_Controller{
 		$userName = $this->input->post('userName');
 		$contra = $this->input->post('contra');
 
-
+		
 		if($this->UsuarioM->verifiyCount($userName,$contra)){
 			$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
 			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){

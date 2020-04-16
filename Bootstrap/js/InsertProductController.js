@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://localhost/ASR-Inventario/Back-End/Usuario/addProduct',
+            url: 'http://localhost:8080/Proyecto/Back-End/Usuario/addProduct',
             type: 'POST',
             data: { 
                 'token': token,

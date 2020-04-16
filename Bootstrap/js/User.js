@@ -15,9 +15,11 @@ $(document).ready(function () {
             'contra': contra
         }; 
 
+        console.log(payload);
+
         $.ajax({
             type: "POST",
-            url: "http://localhost/ASR-Inventario/Back-End/Usuario/login",
+            url: "http://localhost:8080/Proyecto/Back-End/Usuario/login",
             data: payload,
             dataType: "json",
             success: function (response) {
