@@ -21,10 +21,17 @@ class Usuario extends CI_Controller{
 	public function login_post(){
 		
 		$this->load->model('UsuarioM');
-		//$payload = json_decode($this->input->post('payload'));
+		//Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->post('payload'));
+		// $userName = $payload->userName;
+		// $contra = $payload->contra;
+		
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
 		$userName = $this->input->post('userName');
 		$contra = $this->input->post('contra');
-		
+
+
 		if($this->UsuarioM->verifiyCount($userName,$contra)){
 			$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
 			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
@@ -49,23 +56,61 @@ class Usuario extends CI_Controller{
 
 	public function logout_post(){
 		$this->load->model('UsuarioM');
-		$payload = json_decode($this->input->post('payload'));
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->post('payload'));
+		// $token = $payload->token;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->post('token');
 
-		
-		$arrOfToken = AUTHORIZATION::validateToken($payload->token);
+		try{
+			$arrOfToken = AUTHORIZATION::validateToken($token);
 
-		/*
-			Revisar si el token no esta corrupto
-		*/
+			$idUser = $arrOfToken->idUser;
 
-		$idUser = $arrOfToken->idUser;
+			$resultQuery = $this->UsuarioM->CloseSession($idUser);
+			
+			if(!array_key_exists('error',$resultQuery)){
+				$resulSet = array("error" => 0);
+			}else{
+				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+			}
+			
+		}catch(Exception $e){
+			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+		}
 
-		$resultQuery = $this->UsuarioM->CloseSession($idUser);
-		
-		if(!array_key_exists('error',$resultQuery)){
-			$resulSet = array("error" => 0);
-		}else{
-			$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		$this->response($resulSet);
+	}
+
+	public function getDash_get(){
+		$this->load->model('UsuarioM');
+		$this->load->model('UsuarioM');
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->get('payload'));
+		// $token = $payload->token;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->get('token');
+
+		try{
+			$arrOfToken = AUTHORIZATION::validateToken($token);
+
+			$idUser = $arrOfToken->idUser;
+			$idSesion = $arrOfToken->session;
+
+			$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
+			
+			// $resulSet = $resultQuery;
+
+			if(!array_key_exists('error',$resultQuery)){
+				$resulSet = $resultQuery;
+			}else{
+				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+			}
+			
+		}catch(Exception $e){
+			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 		}
 
 		$this->response($resulSet);

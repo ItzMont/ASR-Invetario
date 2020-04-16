@@ -231,6 +231,57 @@ BEGIN
 END $$
 DELIMITER ;
 
+-----FOR VALIDATE USER
+DELIMITER $$
+DROP PROCEDURE IF EXISTS ValidatedSessionUser $$
+CREATE PROCEDURE ValidatedSessionUser(
+  idsesion INT,
+  iduser INT
+)
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `idsesion`
+  FROM
+    `sesiones`
+  WHERE
+    `idsesion` = idsesion AND 
+    `idusuario` = iduser AND 
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+-----FUNCTIONS
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetDashAdmin $$
+CREATE PROCEDURE GetDashAdmin()
+BEGIN
+  START TRANSACTION;
+  SELECT
+    `idproducto`,
+    `inventory_num`,
+    `serial_num`,
+    `color`,
+    `descripcion`,
+    `date_modified`,
+    `brand`,
+    `model`,
+    P.`estado`,
+    `area`,
+    `edificio`,
+    `salon`
+  FROM
+    `productos` AS P 
+    LEFT JOIN `areas` AS A ON P.`idarea` = A.`idarea`
+    LEFT JOIN `ubicaciones` AS U ON P.`idubicacion` = U.`idubicacion`
+  WHERE
+    P.`estado` = 1 AND
+    A.`estado` = 1 AND
+    U.`estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
 
 -----CRUD "INVITADO"
 DELIMITER $$
@@ -447,10 +498,13 @@ BEGIN
     `date_modified`,
     `brand`,
     `model`,
-    `idarea`,
-    `idubicacion`
+    `area`,
+    `edificio`,
+    `salon`
   FROM
-    `productos`
+    `productos` AS P 
+    LEFT JOIN `areas` AS A ON P.`idubicacion` = A.`idubicacion`
+    LEFT JOIN `ubicaciones` AS U ON P.`idarea` = U.`idarea`
   WHERE
     `idproducto` = idproductoParam AND
     `estado` = 1;
@@ -497,6 +551,40 @@ BEGIN
 END $$
 DELIMITER ;
 
+-----CRUD "AREAS"
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetAllAreas $$
+CREATE PROCEDURE GetAllAreas()
+BEGIN
+  START TRANSACTION;
+  SELECT 
+    `idarea`,
+    `area`
+  FROM
+    `areas`
+  WHERE
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
+
+-----CRUD "UBICACIONES"
+DELIMITER $$
+DROP PROCEDURE IF EXISTS GetAllUbicaciones $$
+CREATE PROCEDURE GetAllUbicaciones()
+BEGIN
+  START TRANSACTION;
+  SELECT 
+    `idubicacion`,
+    `edificio`,
+    `salon`
+  FROM
+    `ubicaciones`
+  WHERE
+    `estado` = 1;
+  COMMIT;
+END $$
+DELIMITER ;
 ---------------------------------LOAD ROLES
 INSERT INTO `inventarioASR`.`roles`(
     `role_type`
@@ -517,3 +605,33 @@ VALUES(
   "juan@gmail.com",
   "$2y$15$Mp00GUu/xBJpPKWPPJsVx.oWmOBl2H05/lTlC.EZbJ1FoqjQIxT1G"
 );
+
+--DUMY AREAS
+INSERT INTO areas(
+  area
+)VALUES(
+  "AREA_DUMMY1"
+);
+--DUMMY UBIACIONES
+INSERT INTO ubicaciones(
+  edificio,
+  salon
+)VALUES(
+  "EDIFICIO_DUMMY1",
+  "SALON_DUMMY1"
+);
+--DUMMY PRODUCTS
+INSERT INTO productos(
+  inventory_num,
+  serial_num,
+  idarea,
+  idubicacion
+)VALUES(
+  "DUMMY1",
+  "DUMMY1",
+  1,
+  1
+);
+
+
+
