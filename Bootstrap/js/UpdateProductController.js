@@ -1,9 +1,6 @@
 $(document).ready(function(){
     var token = localStorage.getItem("tokenPrincipal");
     console.log(token);
-    var idProduct = localStorage.getItem("idProducto");
-    console.log("ID: "+idProduct);
-
     
     $('#btnAceptarID').click(function (e) { 
         e.preventDefault();
@@ -17,7 +14,7 @@ $(document).ready(function(){
         var idLab = $('#idLab').val();
         var idProd = $('#idProd').val();
         var idProduct = localStorage.getItem("idProducto");
-        console.log(idProduct);
+
 
         $.ajax({
             url: 'http://localhost/ASR-Inventario/Back-End/Usuario/updateProduct',
