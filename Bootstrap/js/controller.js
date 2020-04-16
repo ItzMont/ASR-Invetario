@@ -8,16 +8,23 @@ $(document).ready(function(){
         type: 'GET',
         data: { token: token2 },
         success: function(response){
-            console.log(response);
-
-            var table = "<table class='table table-responsive-sm table-responsive-md'><tbody>";
-
-            response.forEach(element => {
-                
+            var tabla = response;
+            let i = ``;
+            tabla.forEach(tabla => {
+                i += `<tr>
+                <td><a href="modificaciones.html" id="modificar">${id = tabla.inventarynum} </a></td>
+                <td>${tabla.serialnum}</td>
+                <td>${tabla.color}</td>
+                <td>${tabla.brand}</td>
+                <td>${tabla.model}</td>
+                <td>${tabla.area}</td>
+                <td>${tabla.edificio}</td>
+                <td>${tabla.estado}</td>
+                <td> <a href="modificaciones.html"></a> </td>
+                </tr>` 
+                    
             });
-
-
-            table += "</tbody></table>";
+            $('#myTable').html(i);
         }
     })
 
