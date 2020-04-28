@@ -11,6 +11,7 @@ use Restserver\libraries\REST_Controller_Definitions;
 require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
+require_once 'CreatorPDF.php';
 
 class Usuario extends CI_Controller{
 
@@ -212,5 +213,10 @@ class Usuario extends CI_Controller{
 		}
 
 
+	}
+
+	public function createReport_get(){
+		CreatorPDF::createReport();
+		//$this->response(array("key" => "Hola"));
 	}
 }
