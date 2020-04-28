@@ -559,11 +559,11 @@ BEGIN
     `salon`
   FROM
     `productos` AS P 
-    LEFT JOIN `areas` AS A ON P.`idubicacion` = A.`idubicacion`
-    LEFT JOIN `ubicaciones` AS U ON P.`idarea` = U.`idarea`
+    LEFT JOIN `areas` AS A ON P.`idubicacion` = A.`idarea`
+    LEFT JOIN `ubicaciones` AS U ON P.`idarea` = U.`idubicacion`
   WHERE
     `idproducto` = idproductoParam AND
-    `estado` = 1;
+    P.`estado` = 1;
   COMMIT;
 END $$
 DELIMITER ;

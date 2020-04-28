@@ -11,6 +11,7 @@ use Restserver\libraries\REST_Controller_Definitions;
 require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
+require_once 'CreatorPDF.php';
 
 class Usuario extends CI_Controller{
 
@@ -198,6 +199,40 @@ class Usuario extends CI_Controller{
 		$this->response($resulSet);
 	}
 
+	public function getProduct_get(){
+		$this->load->model('UsuarioM');
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->get('payload'));
+		// $token = $payload->token;
+		// $productID = $payload->productID;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->get('token');
+		$productID = $this->input->get('productID');
+
+		try{
+			$arrOfToken = AUTHORIZATION::validateToken($token);
+
+			$idUser = $arrOfToken->idUser;
+			$idSesion = $arrOfToken->session;
+
+			$resultQuery = $this->UsuarioM->GetProductByID($idUser,$idSesion,$productID);
+			
+			// $resulSet = $resultQuery;
+
+			if(!array_key_exists('error',$resultQuery)){
+				$resulSet = $resultQuery;
+			}else{
+				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+			}
+			
+		}catch(Exception $e){
+			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+		}
+
+		$this->response($resulSet);
+	}
+
 	public function test_post(){
 		//$payload = $this->input->post('payload');
 
@@ -212,5 +247,10 @@ class Usuario extends CI_Controller{
 		}
 
 
+	}
+
+	public function createReport_get(){
+		CreatorPDF::createReport();
+		//$this->response(array("key" => "Hola"));
 	}
 }

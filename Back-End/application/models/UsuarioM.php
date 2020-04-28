@@ -94,6 +94,18 @@
             return $resultSet;
         }
 
+        public function GetProductByID($idUser,$idSesion,$productID){
+            if($this->ValidatedUser($idUser,$idSesion)){
+                $query = $this->db->query("CALL GetProductoByID(".$this->db->escape($productID).")");
+                $resultSet = $query->result_array(); 
+                mysqli_next_result($this->db->conn_id);
+            }else{
+                $resultSet = array("error" => 302 );
+            }
+
+            return $resultSet;
+        }
+
         public function ValidatedUser($idUser,$idSesion){
             $query = $this->db->query("CALL ValidatedSessionUser(".$this->db->escape($idUser).",".$this->db->escape($idSesion).")");
             $result = $query->row_array();
