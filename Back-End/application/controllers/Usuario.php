@@ -249,8 +249,66 @@ class Usuario extends CI_Controller{
 
 	}
 
-	public function createReport_get(){
-		CreatorPDF::createReport();
-		//$this->response(array("key" => "Hola"));
+
+	//=========NO TIENE BUEN FUNCIONAMIENTO PORQUE ES NECESARIO DEFINIR UN DASH
+
+	public function createReportAllProducts_get(){
+		$this->load->model('UsuarioM');
+		// //Forma normal dde recibir los datos
+		// $payload = json_decode($this->input->get('payload'));
+		// $token = $payload->token;
+		//=====================================================
+		//Forma para el Front-End de recuperar la informacion
+		$token = $this->input->get('token');
+		
+		if(!empty($token)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+				$idSesion = $arrOfToken->session;
+	
+				$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
+	
+				if(!array_key_exists('error',$resultQuery)){
+	
+					$pdf = new CreatorPDF();
+	
+					$pdf->createReportAllProducts($resultQuery);
+	
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+			}
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
+		}
+
+
+
+
+
+
+
+
+
+		//=======
+		// $resultQuery = $this->UsuarioM->GetDash(1,5);
+	
+		// if(!array_key_exists('error',$resultQuery)){
+
+		// 	$pdf = new CreatorPDF();
+
+		// 	$pdf->createReportAllProducts($resultQuery);
+
+		// }else{
+		// 	$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		// }
+
+		
+		
 	}
 }
