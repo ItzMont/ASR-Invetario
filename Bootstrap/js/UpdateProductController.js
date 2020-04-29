@@ -1,6 +1,25 @@
 $(document).ready(function(){
     var token = localStorage.getItem("tokenPrincipal");
+    var idProducto = localStorage.getItem("idProducto");
     console.log(token);
+
+    function getProductInfo(){
+        $.ajax({
+            url: 'http://localhost/Proyecto/Back-End/Usuario/getProduct',
+            type:'GET',
+            data:{
+                'token': token,
+                'productID': idProducto,
+            },
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+                
+                alert(response);
+                //window.location.href = "modificaciones.html";
+            }
+        }) 
+    }
     
     $('#btnAceptarID').click(function (e) { 
         e.preventDefault();
@@ -17,7 +36,7 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://localhost:8080/ASR-Inventario/Back-End/Usuario/updateProduct',
+            url: 'http://localhost/Proyecto/Back-End/Usuario/updateProduct',
             type: 'POST',
             data: { 
                 'token': token,
@@ -36,6 +55,8 @@ $(document).ready(function(){
             }
         })
     }
+
+    
 
     
 
