@@ -3,38 +3,76 @@ $(document).ready(function(){
     console.log(token2);
     var id;
     
+    
+
     $.ajax({
-        url: 'http://localhost:8080/Proyecto/Back-End/Usuario/getDash',
+        url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
         type: 'GET',
         data: { 'token': token2 },
         datatype: "JSON",
         success: function(response){
+            console.log(response)
             var tabla = response;
-            let i = ``;
+            let i = '';
             tabla.forEach(tabla => {
                 i += `<tr>
-                <td><a href="modificaciones.html" id="modificar">${id = tabla.inventarynum} </a></td>
-                <td>${tabla.serialnum}</td>
+                <td><a>${tabla.idproducto} </a></td>
+                <td>${tabla.serial_num}</td>
                 <td>${tabla.color}</td>
                 <td>${tabla.brand}</td>
                 <td>${tabla.model}</td>
                 <td>${tabla.area}</td>
                 <td>${tabla.edificio}</td>
                 <td>${tabla.estado}</td>
-                <td> <a href="modificaciones.html"></a> </td>
+                <td><button type="submit" class="btn btn-outline-dark btn-sm" value="${tabla.idproducto}" id="modificar">Modificar </button> </td>
                 </tr>` 
                     
             });
             $('#myTable').html(i);
         }
+
+        
     })
 
-    $(document).on("click",'#modificar',(function(e){    
-        var idProducto = id;
-        localStorage.setItem("idProducto",idProducto); 
+    
+        
+  
+
+        $('#modificar').click(function(){
+          //$(this).hide();
+            //localStorage.removeItem($(this).val()); 
+            //alert($(this).val());
+            
+            //var idProducto = $(this).val();
+            //alert(idProducto);
+            //console.log(idProducto);
+            //localStorage.setItem("idProducto",idProducto); 
+            //alert("Funciono");
+            window.location.href = "modificaciones.html";
+            id=document.getElementById("modificar").value;
+            alert(id);
+        });
+
+/*
+        function modifyProd(id){
+        id=document.getElementById("#modificar").value;
+        alert(id);
+    }
+    
+/* $(document).on("click",'#modificar',(function(e){    
+        var idProducto = $(this).val();
+        alert(idProducto);
         console.log(idProducto);
-        alert("Funciono");     
+        localStorage.setItem("idProducto",idProducto); 
+        alert("Funciono");
+        //window.location.href = "modificaciones.html";
     }));
+*/
+    $('#btnAceptarID').click(function (e) { 
+        e.preventDefault();
+        addProdct();
+    });
+    
 
     $('#logout').click(function(){
         localStorage.removeItem("tokenPrincipal");            
@@ -44,11 +82,12 @@ $(document).ready(function(){
         let search = $('#myInput').val();
         console.log(search);
         $.ajax({
-            url: 'http://localhost/ASR-Inventario/Back-End/Usuario/getDash',
+            url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
             type: 'GET',
             success: function(response){
                 console.log(response);
             }
         })
     })
+
 });

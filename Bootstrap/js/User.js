@@ -19,7 +19,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/Proyecto/Back-End/Usuario/login",
+            url: "http://localhost/Proyecto/Back-End/Usuario/login",
             data: payload,
             dataType: "json",
             success: function (response) {
