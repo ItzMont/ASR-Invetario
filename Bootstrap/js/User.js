@@ -22,6 +22,10 @@ $(document).ready(function () {
             url: "http://localhost:8080/Proyecto/Back-End/Usuario/login",
             data: payload,
             dataType: "json",
+            beforeSend: function(){
+              $('.fa').css({'display': ''});
+              $('#login').css({'display': 'none'});
+            },
             success: function (response) {
                 console.log(response);
                 token = response['token'];
@@ -32,7 +36,11 @@ $(document).ready(function () {
             },
             error: function(){
                 alert("No Funciono");
-            }
+            },
+            complete: function() {
+              $('.fa').css('display','none');
+              $('#login').css({'display': ''});
+            },
         });
 
        // $('#login').click(function(){
