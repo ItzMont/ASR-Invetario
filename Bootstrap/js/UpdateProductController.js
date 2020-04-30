@@ -3,22 +3,39 @@ $(document).ready(function(){
     var idProducto = localStorage.getItem("idProducto");
     console.log(token);
     console.log(idProducto);
+    getProductInfo(token,idProducto);
 
-    function getProductInfo(){
+    function getProductInfo(token,idProducto){
+        //var id=Number(idProducto);
+        //var tok=token.toString();
+        //console.log("id "+id+" token "+ tok );
+
         $.ajax({
             url: 'http://localhost/Proyecto/Back-End/Usuario/getProduct',
             type:'GET',
             data:{
-                'token': token,
-                'productID': idProducto,
+                token: token,
+                productID: idProducto
             },
             dataType: "json",
             success: function(response){
                 console.log(response);
-                
-                alert(response);
-                //window.location.href = "modificaciones.html";
+                var prod=response;
+                console.log(prod);
+                $('#marca').val(prod[0]['brand']);
+                $('#color').val(prod[0]['color']);
+                $('#idLab').val(prod[0]['inventory_num']);
+                $('#idProd').val(prod[0]['serial_num']);
+                /*
+                console.log(prod);
+                console.log(response[0]["brand"]);
+                console.log(response['color']);
+                console.log(response['inventory_num']);
+                console.log(response['serial_num']);
+                //alert(response);
+                //window.location.href = "modificaciones.html";*/
             }
+           
         }) 
     }
     
@@ -28,7 +45,7 @@ $(document).ready(function(){
     });
     
     function addProdct(){
-        var material = $('#material').val();
+        //var material = $('#material').val();
         var marca = $('#marca').val();
         var color = $('#color').val();
         var idLab = $('#idLab').val();
