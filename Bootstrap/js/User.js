@@ -9,6 +9,7 @@ $(document).ready(function () {
             'userName' : userName,
             'contra': contra
         }; 
+
         
         $.ajax({
             type: "POST",
@@ -30,6 +31,7 @@ $(document).ready(function () {
             },
             error: function(){
               alert("Error: No se realizar login.");
+              $('#contraInput').val("");
             },
             complete: function() {
               $('.fa').css('display','none');
