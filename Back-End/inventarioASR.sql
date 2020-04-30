@@ -652,13 +652,13 @@ VALUES(
     "INVITADO"
 );
 
---DUMMY ADMIN
+--ADMIN FOR TEST
 INSERT INTO `usuarios`(
   `claveIdentificacion`,
   `contraASR`
 )
 VALUES(
-  "juan@gmail.com",
+  "patricia@gmail.com",
   "$2y$15$Mp00GUu/xBJpPKWPPJsVx.oWmOBl2H05/lTlC.EZbJ1FoqjQIxT1G"
 );
 
@@ -666,27 +666,89 @@ VALUES(
 INSERT INTO areas(
   area
 )VALUES(
-  "AREA_DUMMY1"
+  "AREA_1"
+),(
+  "AREA_2"
+),(
+  "AREA_3"
+),(
+  "AREA_4"
 );
 --DUMMY UBIACIONES
 INSERT INTO ubicaciones(
   edificio,
   salon
 )VALUES(
-  "EDIFICIO_DUMMY1",
-  "SALON_DUMMY1"
+  "CCO1",
+  "101"
+),(
+  "CCO1",
+  "102"
+),(
+  "CCO2",
+  "ASR"
+),(
+  "CCO2",
+  "Bases de Datos"
+),(
+  "CCO2",
+  "Aztli"
 );
 --DUMMY PRODUCTS
 INSERT INTO productos(
   inventory_num,
   serial_num,
-  idarea,
-  idubicacion
+  color,
+  descripcion,
+  brand,
+  model,
+  idubicacion,
+  idarea
 )VALUES(
-  "DUMMY1",
-  "DUMMY1",
-  1,
+  "000100",
+  "000050",
+  "NEGRO",
+  "CAÑON EN BUENAS CONDICIONES",
+  "SAMSUNG",
+  "DE LUJO",
+  5,
   1
+),(
+  "000200",
+  "000060",
+  "BLANCO",
+  "CABLE VGA",
+  "DESCONOCIDO",
+  "SENCILLO",
+  3,
+  3
+),(
+  "000400",
+  "000070",
+  "MARRON",
+  "APUNTADOR LASER",
+  "SAMSUNG",
+  "DE LUJO",
+  3,
+  1
+),(
+  "000700",
+  "000100",
+  "NEGRO",
+  "CAÑON DEFECTUOSO",
+  "LG",
+  "NORMAL",
+  3,
+  1
+),(
+  "000800",
+  "000150",
+  "NEGRO",
+  "CABLE HDMI",
+  "DESCONOCIDO",
+  "NORMAL",
+  4,
+  2
 );
 
 
