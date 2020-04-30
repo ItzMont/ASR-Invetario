@@ -6,7 +6,7 @@ $(document).ready(function(){
     
 
     $.ajax({
-        url: 'http://localhost:8080/Proyecto/Back-End/Usuario/getDash',
+        url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
         type: 'GET',
         data: { 'token': token2 },
         datatype: "JSON",

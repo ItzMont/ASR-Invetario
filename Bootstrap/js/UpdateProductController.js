@@ -11,7 +11,7 @@ $(document).ready(function(){
         //console.log("id "+id+" token "+ tok );
 
         $.ajax({
-            url: 'http://localhost:8080/Proyecto/Back-End/Usuario/getProduct',
+            url: 'http://localhost/Proyecto/Back-End/Usuario/getProduct',
             type:'GET',
             data:{
                 token: token,
@@ -56,7 +56,7 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://localhost:8080/Proyecto/Back-End/Usuario/updateProduct',
+            url: 'http://localhost/Proyecto/Back-End/Usuario/updateProduct',
             type: 'POST',
             data: { 
                 'token': token,
