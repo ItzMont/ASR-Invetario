@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  //Verify any token that can exist
+  verifyIfExistToken();
+
     $('#formID').submit(function (e) { 
         e.preventDefault();
 
@@ -39,4 +42,13 @@ $(document).ready(function () {
             },
         });
     });
+    
+    function verifyIfExistToken(){
+      if (localStorage.getItem("tokenPrincipal") !== null) {
+        window.location.href = "dash.html";
+        // console.log(localStorage.getItem("tokenPrincipal"));
+      }
+    }
+
+
 });
