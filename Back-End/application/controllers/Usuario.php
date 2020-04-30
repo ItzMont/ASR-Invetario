@@ -32,27 +32,32 @@ class Usuario extends CI_Controller{
 		$userName = $this->input->post('userName');
 		$contra = $this->input->post('contra');
 
-		
-		if($this->UsuarioM->verifiyCount($userName,$contra)){
-			$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
-			if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
-				$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
-				$token = AUTHORIZATION::generateToken($arrToToken);
-
-				unset($resulSet['idsession']);
-				unset($resulSet['idusuario']);
-		
-				$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
-				$this->response($resulSet);
-
-			}else{
-				$resulSet = array("error" => 101, "message" => "Contact the administrator.");
+		if(!empty($userName) && !empty($contra)){
+			if($this->UsuarioM->verifiyCount($userName,$contra)){
+				$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
+				if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
+					$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
+					$token = AUTHORIZATION::generateToken($arrToToken);
+	
+					unset($resulSet['idsession']);
+					unset($resulSet['idusuario']);
+			
+					$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
+					$this->response($resulSet);
+	
+				}else{
+					$resulSet = array("error" => 101, "message" => "Contact the administrator.");
+				}
 			}
+			else
+				$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
+			
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
 		}
-		else
-			$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
 		
-		$this->response($resulSet);
+		
 	}
 
 	public function logout_post(){
@@ -64,24 +69,30 @@ class Usuario extends CI_Controller{
 		//Forma para el Front-End de recuperar la informacion
 		$token = $this->input->post('token');
 
-		try{
-			$arrOfToken = AUTHORIZATION::validateToken($token);
-
-			$idUser = $arrOfToken->idUser;
-
-			$resultQuery = $this->UsuarioM->CloseSession($idUser);
-			
-			if(!array_key_exists('error',$resultQuery)){
-				$resulSet = array("error" => 0);
-			}else{
-				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		if(!empty($token)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+	
+				$resultQuery = $this->UsuarioM->CloseSession($idUser);
+				
+				if(!array_key_exists('error',$resultQuery)){
+					$resulSet = array("error" => 0);
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 			}
-			
-		}catch(Exception $e){
-			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+	
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
 		}
 
-		$this->response($resulSet);
+		
 	}
 
 	public function addProduct_post(){
@@ -100,29 +111,35 @@ class Usuario extends CI_Controller{
 
 		$resulSet = $idProd;
 		
-		try{
-			$arrOfToken = AUTHORIZATION::validateToken($token);
-
-			$idUser = $arrOfToken->idUser;
-			$idSesion = $arrOfToken->session;
-
-			
-
-			$resultQuery = $this->UsuarioM->InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca);
-			
-			//$resulSet = $resultQuery;
-
-			if(array_key_exists('error',$resultQuery) && $resultQuery['error'] == 0){
-				$resulSet = $resultQuery;
-			}else{
-				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		if(!empty($token)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+				$idSesion = $arrOfToken->session;
+	
+				
+	
+				$resultQuery = $this->UsuarioM->InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca);
+				
+				//$resulSet = $resultQuery;
+	
+				if(array_key_exists('error',$resultQuery) && $resultQuery['error'] == 0){
+					$resulSet = $resultQuery;
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 			}
 			
-		}catch(Exception $e){
-			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
 		}
+
 		
-		$this->response($resulSet);
 	}
 
 	public function updateProduct_post(){
@@ -142,29 +159,35 @@ class Usuario extends CI_Controller{
 
 		$resulSet = $idProd;
 		
-		try{
-			$arrOfToken = AUTHORIZATION::validateToken($token);
-
-			$idUser = $arrOfToken->idUser;
-			$idSesion = $arrOfToken->session;
-
-			
-
-			$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca);
-			
-			//$resulSet = $resultQuery;
-
-			if(array_key_exists('error',$resultQuery) && $resultQuery['error'] == 0){
-				$resulSet = $resultQuery;
-			}else{
-				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		if(!empty($token) && !empty($idProduct)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+				$idSesion = $arrOfToken->session;
+	
+				
+	
+				$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca);
+				
+				//$resulSet = $resultQuery;
+	
+				if(array_key_exists('error',$resultQuery) && $resultQuery['error'] == 0){
+					$resulSet = $resultQuery;
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 			}
 			
-		}catch(Exception $e){
-			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
 		}
+
 		
-		$this->response($resulSet);
 	}
 
 	public function getDash_get(){
@@ -176,27 +199,31 @@ class Usuario extends CI_Controller{
 		//Forma para el Front-End de recuperar la informacion
 		$token = $this->input->get('token');
 
-		try{
-			$arrOfToken = AUTHORIZATION::validateToken($token);
-
-			$idUser = $arrOfToken->idUser;
-			$idSesion = $arrOfToken->session;
-
-			$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
-			
-			// $resulSet = $resultQuery;
-
-			if(!array_key_exists('error',$resultQuery)){
-				$resulSet = $resultQuery;
-			}else{
-				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		if(!empty($token)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+				$idSesion = $arrOfToken->session;
+	
+				$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
+				
+				// $resulSet = $resultQuery;
+	
+				if(!array_key_exists('error',$resultQuery)){
+					$resulSet = $resultQuery;
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 			}
-			
-		}catch(Exception $e){
-			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+	
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
 		}
-
-		$this->response($resulSet);
 	}
 
 	public function getProduct_get(){
@@ -210,27 +237,31 @@ class Usuario extends CI_Controller{
 		$token = $this->input->get('token');
 		$productID = $this->input->get('productID');
 
-		try{
-			$arrOfToken = AUTHORIZATION::validateToken($token);
-
-			$idUser = $arrOfToken->idUser;
-			$idSesion = $arrOfToken->session;
-
-			$resultQuery = $this->UsuarioM->GetProductByID($idUser,$idSesion,$productID);
-			
-			// $resulSet = $resultQuery;
-
-			if(!array_key_exists('error',$resultQuery)){
-				$resulSet = $resultQuery;
-			}else{
-				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+		if(!empty($token) && !empty($productID)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+				$idSesion = $arrOfToken->session;
+	
+				$resultQuery = $this->UsuarioM->GetProductByID($idUser,$idSesion,$productID);
+				
+				// $resulSet = $resultQuery;
+	
+				if(!array_key_exists('error',$resultQuery)){
+					$resulSet = $resultQuery;
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 			}
-			
-		}catch(Exception $e){
-			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+	
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../Bootstrap/index.html');
 		}
-
-		$this->response($resulSet);
 	}
 
 	public function test_post(){
