@@ -1,6 +1,5 @@
 $(document).ready(function(){
     var token2=localStorage.getItem("tokenPrincipal");
-    console.log(token2);
     var id;
     
     
@@ -20,7 +19,7 @@ $(document).ready(function(){
                 <td>${tabla.serial_num}</td>
                 <td>${tabla.color}</td>
                 <td>${tabla.brand}</td>
-                <td>${tabla.model}</td>
+                
                 <td>${tabla.area}</td>
                 <td>${tabla.edificio}</td>
                 <td>${tabla.estado}</td>
@@ -31,40 +30,18 @@ $(document).ready(function(){
             $('#myTable').html(i);
         }
     })
-
+    /*-------------Linea dentro de la tabla quitada por problema con modificar y dar de alta---------------------------------------------------------
+    <td>${tabla.model}</td>
+    */
     $(document).on("click",'#modificar',(function(e){    
         var idProducto = $(this).val();
-        alert(idProducto);
-        console.log(idProducto);
+        //alert(idProducto);
+        //console.log(idProducto);
         localStorage.setItem("idProducto",idProducto); 
-        alert("Funciono");
+        //alert("Funciono");
         window.location.href = "modificaciones.html";
     }));
         
-  /*
-
-        $('#modificar').click(function(){
-          //$(this).hide();
-            //localStorage.removeItem($(this).val()); 
-            //alert($(this).val());
-            
-            //var idProducto = $(this).val();
-            //alert(idProducto);
-            //console.log(idProducto);
-            //localStorage.setItem("idProducto",idProducto); 
-            //alert("Funciono");
-            window.location.href = "modificaciones.html";
-            id=document.getElementById("modificar").value;
-            alert(id);
-        });
-
-
-        function modifyProd(id){
-        id=document.getElementById("#modificar").value;
-        alert(id);
-    }
-  */  
-    
 
     $('#btnAceptarID').click(function (e) { 
         e.preventDefault();
@@ -83,7 +60,7 @@ $(document).ready(function(){
             url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
             type: 'GET',
             success: function(response){
-                console.log(response);
+                //console.log(response);
             }
         })
     })

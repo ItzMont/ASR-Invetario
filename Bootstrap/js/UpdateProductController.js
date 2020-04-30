@@ -1,8 +1,7 @@
 $(document).ready(function(){
     var token = localStorage.getItem("tokenPrincipal");
     var idProducto = localStorage.getItem("idProducto");
-    console.log(token);
-    console.log(idProducto);
+    
     getProductInfo(token,idProducto);
 
     function getProductInfo(token,idProducto){
@@ -19,21 +18,12 @@ $(document).ready(function(){
             },
             dataType: "json",
             success: function(response){
-                console.log(response);
                 var prod=response;
-                console.log(prod);
                 $('#marca').val(prod[0]['brand']);
                 $('#color').val(prod[0]['color']);
                 $('#idLab').val(prod[0]['inventory_num']);
                 $('#idProd').val(prod[0]['serial_num']);
-                /*
-                console.log(prod);
-                console.log(response[0]["brand"]);
-                console.log(response['color']);
-                console.log(response['inventory_num']);
-                console.log(response['serial_num']);
-                //alert(response);
-                //window.location.href = "modificaciones.html";*/
+               
             }
            
         }) 
