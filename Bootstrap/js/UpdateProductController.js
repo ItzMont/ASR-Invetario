@@ -11,7 +11,7 @@ $(document).ready(function(){
         //console.log("id "+id+" token "+ tok );
 
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getProduct',
+            url: 'http://localhost:8080/Proyecto/Back-End/Usuario/getProduct',
             type:'GET',
             data:{
                 token: token,
@@ -41,10 +41,12 @@ $(document).ready(function(){
     
     $('#btnAceptarID').click(function (e) { 
         e.preventDefault();
-        addProdct();
+        // console.log("Hola");
+        var token = localStorage.getItem("tokenPrincipal");
+        addProdct(token);
     });
     
-    function addProdct(){
+    function addProdct(token){
         //var material = $('#material').val();
         var marca = $('#marca').val();
         var color = $('#color').val();
@@ -54,12 +56,12 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/updateProduct',
+            url: 'http://localhost:8080/Proyecto/Back-End/Usuario/updateProduct',
             type: 'POST',
             data: { 
                 'token': token,
                 'idProduct': idProduct,
-                'material': material,
+                'material': "material",
                 'marca': marca,
                 'color': color,
                 'idLab': idLab,

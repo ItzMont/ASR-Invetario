@@ -17,11 +17,11 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/addProduct',
+            url: 'http://localhost:8080/Proyecto/Back-End/Usuario/addProduct',
             type: 'POST',
             data: { 
                 'token': token,
-                'material': material,
+                'material': "NORMAL",
                 'marca': marca,
                 'color': color,
                 'idLab': idLab,
