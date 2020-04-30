@@ -2,6 +2,7 @@ $(document).ready(function(){
     var token = localStorage.getItem("tokenPrincipal");
     var idProducto = localStorage.getItem("idProducto");
     console.log(token);
+    console.log(idProducto);
 
     function getProductInfo(){
         $.ajax({

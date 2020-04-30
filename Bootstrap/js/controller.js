@@ -30,13 +30,18 @@ $(document).ready(function(){
             });
             $('#myTable').html(i);
         }
-
-        
     })
 
-    
+    $(document).on("click",'#modificar',(function(e){    
+        var idProducto = $(this).val();
+        alert(idProducto);
+        console.log(idProducto);
+        localStorage.setItem("idProducto",idProducto); 
+        alert("Funciono");
+        window.location.href = "modificaciones.html";
+    }));
         
-  
+  /*
 
         $('#modificar').click(function(){
           //$(this).hide();
@@ -53,21 +58,14 @@ $(document).ready(function(){
             alert(id);
         });
 
-/*
+
         function modifyProd(id){
         id=document.getElementById("#modificar").value;
         alert(id);
     }
+  */  
     
-/* $(document).on("click",'#modificar',(function(e){    
-        var idProducto = $(this).val();
-        alert(idProducto);
-        console.log(idProducto);
-        localStorage.setItem("idProducto",idProducto); 
-        alert("Funciono");
-        //window.location.href = "modificaciones.html";
-    }));
-*/
+
     $('#btnAceptarID').click(function (e) { 
         e.preventDefault();
         addProdct();
