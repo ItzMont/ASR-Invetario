@@ -29,29 +29,29 @@ class Usuario extends CI_Controller{
 		
 		$this->load->model('UsuarioM');
 		//Forma normal dde recibir los datos
-		$payload = json_decode($this->input->post('payload'));
-		$userName = $payload->userName;
-		$contra = $payload->contra;
+		// $payload = json_decode($this->input->post('payload'));
+		// $userName = $payload->userName;
+		// $contra = $payload->contra;
 		
 		//=====================================================
 		//Forma para el Front-End de recuperar la informacion
-		// $userName = $this->input->post('userName');
-		// $contra = $this->input->post('contra');
+		$userName = $this->input->post('userName');
+		$contra = $this->input->post('contra');
 
 		if(!empty($userName) && !empty($contra)){
 			if($this->UsuarioM->verifiyCount($userName,$contra)){
 				$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
 				if(!empty($resulSet) && !array_key_exists('error' , $resulSet)){
-					// $arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
-					// $token = AUTHORIZATION::generateToken($arrToToken);
+					$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
+					$token = AUTHORIZATION::generateToken($arrToToken);
 	
-					// unset($resulSet['idsession']);
-					// unset($resulSet['idusuario']);
+					unset($resulSet['idsession']);
+					unset($resulSet['idusuario']);
 			
-					// $resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
-					// $this->response($resulSet);
+					$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
+					$this->response($resulSet);
 
-					$this->response(array('aqui es donde deberia ir el token',$resulSet));
+					// $this->response(array('aqui es donde deberia ir el token',$resulSet));
 	
 				}else{
 					$resulSet = array("error" => 101, "message" => "Contact the administrator.","result" => $resulSet);

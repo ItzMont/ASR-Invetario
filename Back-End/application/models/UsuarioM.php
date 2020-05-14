@@ -76,7 +76,7 @@
 
                 if(!empty($idsessionUser)){
                     // $resultSet = array_merge($dataUser,$idsessionUser);
-                    $resultSet = array_merge($dataUser,array("idsesion" => $idsessionUser));
+                    $resultSet = array_merge($dataUser,array("idsession" => $idsessionUser));
                    
                 }else{
                     unset($dataUser);
