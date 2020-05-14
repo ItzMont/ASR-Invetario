@@ -45,7 +45,7 @@ $(document).ready(function(){
         var idProduct = localStorage.getItem("idProducto");
 
         var tipoEstado = $("input[name='options']:checked").val();
-
+        // console.log(tipoEstado);
         $.ajax({
             url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/updateProduct',
             type: 'POST',
