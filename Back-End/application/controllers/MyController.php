@@ -18,4 +18,10 @@ class MyController extends CI_Controller{
 		$array = array("Hola");
 		$this->response($array);
 	}
+
+	public function loginTest_post(){
+		$this->load->model('UsuarioM');
+		$respone = $this->UsuarioM->verifiyCount("hola","hola");
+		$this->response(array($respone));
+	}
 }

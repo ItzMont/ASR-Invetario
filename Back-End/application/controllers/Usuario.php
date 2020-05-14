@@ -11,7 +11,7 @@ use Restserver\libraries\REST_Controller_Definitions;
 require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
-require_once 'CreatorPDF.php';
+//require_once 'CreatorPDF.php';
 
 class Usuario extends CI_Controller{
 
@@ -19,18 +19,24 @@ class Usuario extends CI_Controller{
 		REST_Controller::__construct as private __resTraitConstruct;
     }
 	
+	public function loginTest_post(){
+		$this->load->model('UsuarioM');
+		$respone = $this->UsuarioM->verifiyCount("hola","hola");
+		$this->response(array($respone));
+	}
+
 	public function login_post(){
 		
 		$this->load->model('UsuarioM');
 		//Forma normal dde recibir los datos
-		// $payload = json_decode($this->input->post('payload'));
-		// $userName = $payload->userName;
-		// $contra = $payload->contra;
+		$payload = json_decode($this->input->post('payload'));
+		$userName = $payload->userName;
+		$contra = $payload->contra;
 		
 		//=====================================================
 		//Forma para el Front-End de recuperar la informacion
-		$userName = $this->input->post('userName');
-		$contra = $this->input->post('contra');
+		// $userName = $this->input->post('userName');
+		// $contra = $this->input->post('contra');
 
 		if(!empty($userName) && !empty($contra)){
 			if($this->UsuarioM->verifiyCount($userName,$contra)){
@@ -54,10 +60,8 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			//header('Location: ./../../Bootstrap/index.html');
 		}
-		
-		
 	}
 
 	public function logout_post(){
@@ -282,7 +286,7 @@ class Usuario extends CI_Controller{
 
 
 	//=========NO TIENE BUEN FUNCIONAMIENTO PORQUE ES NECESARIO DEFINIR UN DASH
-
+	/*
 	public function createReportAllProducts_get(){
 		$this->load->model('UsuarioM');
 		// //Forma normal dde recibir los datos
@@ -341,5 +345,5 @@ class Usuario extends CI_Controller{
 
 		
 		
-	}
+	}*/
 }
