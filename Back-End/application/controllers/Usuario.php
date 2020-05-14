@@ -29,14 +29,14 @@ class Usuario extends CI_Controller{
 		
 		$this->load->model('UsuarioM');
 		//Forma normal dde recibir los datos
-		$payload = json_decode($this->input->post('payload'));
-		$userName = $payload->userName;
-		$contra = $payload->contra;
+		// $payload = json_decode($this->input->post('payload'));
+		// $userName = $payload->userName;
+		// $contra = $payload->contra;
 		
 		//=====================================================
 		//Forma para el Front-End de recuperar la informacion
-		// $userName = $this->input->post('userName');
-		// $contra = $this->input->post('contra');
+		$userName = $this->input->post('userName');
+		$contra = $this->input->post('contra');
 
 		if(!empty($userName) && !empty($contra)){
 			if($this->UsuarioM->verifiyCount($userName,$contra)){
@@ -60,7 +60,7 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			//header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 	}
 
@@ -93,7 +93,7 @@ class Usuario extends CI_Controller{
 	
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 		
@@ -140,7 +140,7 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 		
@@ -188,7 +188,7 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 		
@@ -226,7 +226,7 @@ class Usuario extends CI_Controller{
 	
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 	}
 
@@ -264,7 +264,7 @@ class Usuario extends CI_Controller{
 	
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 	}
 
@@ -319,7 +319,7 @@ class Usuario extends CI_Controller{
 				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
 			}
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 
