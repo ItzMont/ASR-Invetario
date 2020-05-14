@@ -42,16 +42,16 @@
                 </form>      
             </div>
             <div class="col my-3">
-                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">ID Laboratorio</button>
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1" id="id_inven">ID Inventario</button>
             </div>
             <div class="col my-3">
-                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">ID Producto</button>
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1" id="no_serial">No. Serial</button>
             </div>
             <div class="col my-3">
-                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">Material</button>
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1" id="marca">Marca</button>
             </div>
             <div class="col my-3">
-                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1">Marca</button>
+                <button type="button" class="btn btn-outline-primary btn-block btn-sm mx-1" id="color">Color</button>
             </div>
             <div class="col  my-3">
                 <button type="button" class="btn btn-primary btn-block btn-sm float-right">Generar Reporte</button>
@@ -61,15 +61,15 @@
                 <table class="table table-responsive-sm table-responsive-md">
                     <thead class="thead-dark">
                       <tr>
-                        <th scope="col">ID Inventario</th>
-                        <th scope="col">No. Serial</th>
-                        <th scope="col">Color</th>
-                        <th scope="col">Marca</th>
+                        <th scope="col" id="columna1"></th>
+                        <th scope="col" id="columna2"></th>
+                        <th scope="col" id="columna3"></th>
+                        <th scope="col" id="columna4"></th>
                         <!--<th scope="col">Modelo</th>-->
-                        <th scope="col">ID Area</th>
-                        <th scope="col">ID Ubicacion</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Accion</th>
+                        <th scope="col" >ID Area</th>
+                        <th scope="col" >ID Ubicacion</th>
+                        <th scope="col" >Estado</th>
+                        <th scope="col" >Accion</th>
                       </tr>
                     </thead>
                     <tbody id="myTable">
@@ -95,10 +95,12 @@
     
     <!--Archivos Bootstrap Javascript-->
     <script src="js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="js/filtro.js"></script>
+    <script src="js/filtro.js"></script>
     <script src="js/popper.min.js" ></script>
     <script src="js/bootstrap.min.js" ></script>
     <script src="js/controller.js" ></script>
+
+    
   </body>
 </html>
 
