@@ -7,39 +7,43 @@
         }
 
         public function verifiyCount($userName,$contra){
-            $query = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).")");
-            $passHashed =  $query->row_array();
-            mysqli_next_result( $this->db->conn_id);
-            if(!empty($passHashed)){
-                //$passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
-                if(password_verify($contra,$passHashed['contraASR'])){
-                    return true;
-                }
-            }else{
-                return false;
-            }
+
+            $query = $this->db->query("select * from roles;");
+
+            // $query = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).")");
+            // $passHashed =  $query->row_array();
+            // mysqli_next_result( $this->db->conn_id);
+            // if(!empty($passHashed)){
+            //     //$passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
+            //     if(password_verify($contra,$passHashed['contraASR'])){
+            //         return true;
+            //     }
+            // }else{
+            //     return false;
+            // }
         }
 
         public function ContinueLoginSucceful($userName){
-            $query = $this->db->query("CALL GetUserByUserName(".$this->db->escape($userName).")");
-            $dataUser = $query->row_array();
-            mysqli_next_result( $this->db->conn_id);
-            if(!empty($dataUser)){
-                $query = $this->db->query("CALL CreateSession(".$this->db->escape($dataUser['idusuario']).",@idsession)");
-                $idsessionUser = $query->row_array();
-                mysqli_next_result( $this->db->conn_id);
+            // $query = $this->db->query("CALL GetUserByUserName(".$this->db->escape($userName).")");
+            $query = $this->db->query("select * from roles;");
+            // $dataUser = $query->row_array();
+            // mysqli_next_result( $this->db->conn_id);
+            // if(!empty($dataUser)){
+            //     $query = $this->db->query("CALL CreateSession(".$this->db->escape($dataUser['idusuario']).",@idsession)");
+            //     $idsessionUser = $query->row_array();
+            //     mysqli_next_result( $this->db->conn_id);
                 
-                if(!empty($idsessionUser)){
-                    $resultSet = array_merge($dataUser,$idsessionUser);
+            //     if(!empty($idsessionUser)){
+            //         $resultSet = array_merge($dataUser,$idsessionUser);
                    
-                }else{
-                    unset($dataUser);
-                    $resultSet = array("error" => 11, "message" => "No se pudo crear una session para el usuario");
-                }
-            }else{
-                $resultSet = array("error" => 10, "message" => "No se encontraron datos del usuario.");
-            }
-            return $resultSet;
+            //     }else{
+            //         unset($dataUser);
+            //         $resultSet = array("error" => 11, "message" => "No se pudo crear una session para el usuario");
+            //     }
+            // }else{
+            //     $resultSet = array("error" => 10, "message" => "No se encontraron datos del usuario.");
+            // }
+            // return $resultSet;
         }
 
         public function CloseSession($iduser){

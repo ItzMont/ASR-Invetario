@@ -17,6 +17,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "https://asrinventario.000webhostapp.com/Back-End/Usuario/login",
+            // url: "https://asrinventario.000webhostapp.com/Back-End/MyController/loginTest",
             data: payload,
             dataType: "json",
             beforeSend: function(){
@@ -25,10 +26,12 @@ $(document).ready(function () {
             },
             success: function (response) {
               if(response['error'] == 0){
+                console.log(response);
                 localStorage.setItem("tokenPrincipal",response['token']);
                 window.location.href = "dash.html";
               }else{
                 alert(response['message']);
+                console.log(response);
                 $('#contraInput').val("");
               }
             },

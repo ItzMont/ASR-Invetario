@@ -22,6 +22,6 @@ class MyController extends CI_Controller{
 	public function loginTest_post(){
 		$this->load->model('UsuarioM');
 		$respone = $this->UsuarioM->verifiyCount("hola","hola");
-		$this->response(array($respone));
+		$this->response(array($respone,'Soy el metodo loginTest'));
 	}
 }

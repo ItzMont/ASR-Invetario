@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *');
-header("Content-Type: multipart/form-data ; charset=utf-8");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+// header('Access-Control-Allow-Origin: *');
+// header("Content-Type: multipart/form-data ; charset=utf-8");
+// header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 
 use Restserver\libraries\REST_Controller;
@@ -40,28 +40,34 @@ class Usuario extends CI_Controller{
 
 		if(!empty($userName) && !empty($contra)){
 			if($this->UsuarioM->verifiyCount($userName,$contra)){
-				$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
-				if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
-					$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
-					$token = AUTHORIZATION::generateToken($arrToToken);
+				// $resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
+				$this->UsuarioM->ContinueLoginSucceful($userName);
+				$this->UsuarioM->ContinueLoginSucceful($userName);
+				$this->UsuarioM->ContinueLoginSucceful($userName);
+				$this->UsuarioM->ContinueLoginSucceful($userName);
+				// if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
+				// 	$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
+				// 	$token = AUTHORIZATION::generateToken($arrToToken);
 	
-					unset($resulSet['idsession']);
-					unset($resulSet['idusuario']);
+				// 	unset($resulSet['idsession']);
+				// 	unset($resulSet['idusuario']);
 			
-					$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
-					$this->response($resulSet);
+				// 	$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
+				// 	$this->response($resulSet);
 	
-				}else{
-					$resulSet = array("error" => 101, "message" => "Contact the administrator.");
-				}
+				// }else{
+				// 	$resulSet = array("error" => 101, "message" => "Contact the administrator.");
+				// }
 			}
 			else
 				$resulSet = array("error" => 100, "message" => "Credentials are incorrect.");
 			
-			$this->response($resulSet);
+			// $this->response($resulSet);
 		}else{
-			header('Location: ./../../index.html');
+			//header('Location: ./../../index.html');
 		}
+
+		$this->response(array($userName,$contra));
 	}
 
 	public function logout_post(){
