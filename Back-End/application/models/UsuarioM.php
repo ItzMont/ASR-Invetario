@@ -110,9 +110,15 @@
         }
 
         public function CloseSession($iduser){
-            $query = $this->db->query("CALL LogOut(".$this->db->escape($iduser).")");
+            $query = $this->db->query(" UPDATE `sesiones`
+                                        SET 
+                                        `estado` = 0,
+                                        `tiempoFin`= CURRENT_TIMESTAMP()
+                                        WHERE 
+                                        `idusuario` = ".$this->db->escape($iduser)." AND
+                                        `estado` = 1;");
             $result = $this->db->affected_rows();
-            mysqli_next_result($this->db->conn_id);
+            // mysqli_next_result($this->db->conn_id);
             
             if($result == 1){
                 return array();
@@ -121,39 +127,121 @@
             }else{
                 return array("error" => 202 );
             }
+
+
+            //==============================USANDO PROCEDIMIENTOS ALMACENADOS
+            // $query = $this->db->query("CALL LogOut(".$this->db->escape($iduser).")");
+            // $result = $this->db->affected_rows();
+            // mysqli_next_result($this->db->conn_id);
+            
+            // if($result == 1){
+            //     return array();
+            // }elseif($result > 1){
+            //     return array("error" => 201 );
+            // }else{
+            //     return array("error" => 202 );
+            // }
         }
 
         public function InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca){
             if($this->ValidatedUser($idUser,$idSesion)){
-                $query = $this->db->query("CALL CreateProductoAux(".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+                $query = $this->db->query("INSERT INTO productos(
+                                                inventory_num,
+                                                serial_num,
+                                                color,
+                                                date_modified,
+                                                brand,
+                                                idarea,
+                                                idubicacion
+                                            )VALUES(
+                                                ".$this->db->escape($idLab).",
+                                                ".$this->db->escape($idProd).",
+                                                ".$this->db->escape($color).",
+                                                CURRENT_TIMESTAMP(),
+                                                ".$this->db->escape($marca).",
+                                                1,
+                                                1
+                                            );");
                 //$resultSet = $query->result_array(); 
-                mysqli_next_result($this->db->conn_id);
+                // mysqli_next_result($this->db->conn_id);
                 $resultSet = array("error" => 0 );
             }else{
                 $resultSet = array("error" => 302 );
             }
+
+
+            //==============================USANDO PROCEDIMIENTOS ALMACENADOS
+
+            // if($this->ValidatedUser($idUser,$idSesion)){
+            //     $query = $this->db->query("CALL CreateProductoAux(".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+            //     //$resultSet = $query->result_array(); 
+            //     mysqli_next_result($this->db->conn_id);
+            //     $resultSet = array("error" => 0 );
+            // }else{
+            //     $resultSet = array("error" => 302 );
+            // }
 
             return $resultSet;
         }
 
         public function UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca){
             if($this->ValidatedUser($idUser,$idSesion)){
-                $query = $this->db->query("CALL UpdateProductoAux(".$this->db->escape($idProduct).",".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+                $query = $this->db->query(" UPDATE productos
+                                            SET
+                                            inventory_num = ".$this->db->escape($idLab).",
+                                            serial_num = ".$this->db->escape($idProd).",
+                                            color = ".$this->db->escape($color).",
+                                            date_modified = CURRENT_TIMESTAMP(),
+                                            brand = ".$this->db->escape($marca)."
+                                            WHERE 
+                                            idproducto = ".$this->db->escape($idProduct)." AND
+                                            estado = 1;");
                 //$resultSet = $query->result_array(); 
-                mysqli_next_result($this->db->conn_id);
+                // mysqli_next_result($this->db->conn_id);
                 $resultSet = array("error" => 0 );
             }else{
                 $resultSet = array("error" => 302 );
             }
+
+
+            //=======================PROCEDIMIENTOS ALMACENADOS
+            // if($this->ValidatedUser($idUser,$idSesion)){
+            //     $query = $this->db->query("CALL UpdateProductoAux(".$this->db->escape($idProduct).",".$this->db->escape($idLab).",".$this->db->escape($idProd).",".$this->db->escape($color).",".$this->db->escape($marca).")");
+            //     //$resultSet = $query->result_array(); 
+            //     mysqli_next_result($this->db->conn_id);
+            //     $resultSet = array("error" => 0 );
+            // }else{
+            //     $resultSet = array("error" => 302 );
+            // }
 
             return $resultSet;
         }
         
         public function GetDash($idUser,$idSesion){
             if($this->ValidatedUser($idUser,$idSesion)){
-                $query = $this->db->query("CALL GetDashAdmin()");
+                $query = $this->db->query("SELECT
+                                                idproducto,
+                                                inventory_num,
+                                                serial_num,
+                                                color,
+                                                descripcion,
+                                                date_modified,
+                                                brand,
+                                                model,
+                                                P.estado,
+                                                area,
+                                                edificio,
+                                                salon
+                                            FROM
+                                                productos AS P 
+                                                LEFT JOIN areas AS A ON P.idarea = A.idarea
+                                                LEFT JOIN ubicaciones AS U ON P.idubicacion = U.idubicacion
+                                            WHERE
+                                                P.estado = 1 AND
+                                                A.estado = 1 AND
+                                                U.estado = 1;");
                 $resultSet = $query->result_array(); 
-                mysqli_next_result($this->db->conn_id);
+                // mysqli_next_result($this->db->conn_id);
             }else{
                 $resultSet = array("error" => 302 );
             }
@@ -163,25 +251,67 @@
 
         public function GetProductByID($idUser,$idSesion,$productID){
             if($this->ValidatedUser($idUser,$idSesion)){
-                $query = $this->db->query("CALL GetProductoByID(".$this->db->escape($productID).")");
+                $query = $this->db->query(" SELECT
+                                                inventory_num,
+                                                serial_num,
+                                                color,
+                                                descripcion,
+                                                date_modified,
+                                                brand,
+                                                model,
+                                                area,
+                                                edificio,
+                                                salon
+                                            FROM
+                                                productos AS P 
+                                                LEFT JOIN areas AS A ON P.idubicacion = A.idarea
+                                                LEFT JOIN ubicaciones AS U ON P.idarea = U.idubicacion
+                                            WHERE
+                                                idproducto = ".$this->db->escape($productID)." AND
+                                                P.estado = 1;");
                 $resultSet = $query->result_array(); 
-                mysqli_next_result($this->db->conn_id);
+                // mysqli_next_result($this->db->conn_id);
             }else{
                 $resultSet = array("error" => 302 );
             }
+            //=======================   PROCEDIMIENTOS ALMACENADOS
+            // if($this->ValidatedUser($idUser,$idSesion)){
+            //     $query = $this->db->query("CALL GetProductoByID(".$this->db->escape($productID).")");
+            //     $resultSet = $query->result_array(); 
+            //     mysqli_next_result($this->db->conn_id);
+            // }else{
+            //     $resultSet = array("error" => 302 );
+            // }
 
             return $resultSet;
         }
 
         public function ValidatedUser($idUser,$idSesion){
-            $query = $this->db->query("CALL ValidatedSessionUser(".$this->db->escape($idUser).",".$this->db->escape($idSesion).")");
+            $query = $this->db->query(" SELECT
+                                            idsesion
+                                        FROM
+                                            sesiones
+                                        WHERE
+                                            idsesion = ".$this->db->escape($idSesion)." AND 
+                                            idusuario = ".$this->db->escape($idUser)." AND 
+                                            estado = 1;");
             $result = $query->row_array();
-            mysqli_next_result($this->db->conn_id);
+            // mysqli_next_result($this->db->conn_id);
             if(!empty($result)){//Refinar esto comprobando si el resultado efectivamente fue 1
                 return true;
             }else{
                 // return false;
                 return true;
             }
+            //=======================   PROCEDIMIENTOS ALMACENADOS
+            // $query = $this->db->query("CALL ValidatedSessionUser(".$this->db->escape($idUser).",".$this->db->escape($idSesion).")");
+            // $result = $query->row_array();
+            // mysqli_next_result($this->db->conn_id);
+            // if(!empty($result)){//Refinar esto comprobando si el resultado efectivamente fue 1
+            //     return true;
+            // }else{
+            //     // return false;
+            //     return true;
+            // }
         }
     }

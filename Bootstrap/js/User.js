@@ -48,7 +48,7 @@ $(document).ready(function () {
     
     function verifyIfExistToken(){
       if (localStorage.getItem("tokenPrincipal") !== null) {
-        window.location.href = "dash.html";
+        // window.location.href = "dash.html";
         // console.log(localStorage.getItem("tokenPrincipal"));
       }
     }
