@@ -165,6 +165,7 @@ class Usuario extends CI_Controller{
 		$color = $this->input->post('color');
 		$idLab = $this->input->post('idLab');
 		$idProd = $this->input->post('idProd');
+		$tipoEstado = $this->input->post('tipoEstado');
 
 		$resulSet = $idProd;
 		
@@ -177,7 +178,7 @@ class Usuario extends CI_Controller{
 	
 				
 	
-				$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca);
+				$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca,$tipoEstado);
 				
 				//$resulSet = $resultQuery;
 	

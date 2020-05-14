@@ -184,17 +184,18 @@
             return $resultSet;
         }
 
-        public function UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca){
+        public function UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca,$tipoEstado){
             if($this->ValidatedUser($idUser,$idSesion)){
                 $query = $this->db->query(" UPDATE productos
                                             SET
-                                            inventory_num = ".$this->db->escape($idLab).",
-                                            serial_num = ".$this->db->escape($idProd).",
-                                            color = ".$this->db->escape($color).",
-                                            date_modified = CURRENT_TIMESTAMP(),
-                                            brand = ".$this->db->escape($marca)."
+                                                inventory_num = ".$this->db->escape($idLab).",
+                                                serial_num = ".$this->db->escape($idProd).",
+                                                color = ".$this->db->escape($color).",
+                                                date_modified = CURRENT_TIMESTAMP(),
+                                                brand = ".$this->db->escape($marca).",
+                                                idtipoEstado = ".$this->db->escape($tipoEstado)."
                                             WHERE 
-                                            idproducto = ".$this->db->escape($idProduct)." AND
+                                             idproducto = ".$this->db->escape($idProduct)." AND
                                             estado = 1;");
                 //$resultSet = $query->result_array(); 
                 // mysqli_next_result($this->db->conn_id);
@@ -231,14 +232,17 @@
                                                 P.estado,
                                                 area,
                                                 edificio,
-                                                salon
+                                                salon,
+                                                T.tipo AS tipoEstado
                                             FROM
                                                 productos AS P 
                                                 LEFT JOIN areas AS A ON P.idarea = A.idarea
                                                 LEFT JOIN ubicaciones AS U ON P.idubicacion = U.idubicacion
+                                                LEFT JOIN tipoEstados AS T ON P.idtipoEstado = T.idtipoEstado
                                             WHERE
                                                 P.estado = 1 AND
                                                 A.estado = 1 AND
+                                                T.estado = 1 AND
                                                 U.estado = 1;");
                 $resultSet = $query->result_array(); 
                 // mysqli_next_result($this->db->conn_id);

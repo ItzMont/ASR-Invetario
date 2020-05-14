@@ -44,6 +44,7 @@ $(document).ready(function(){
         var idProd = $('#idProd').val();
         var idProduct = localStorage.getItem("idProducto");
 
+        var tipoEstado = $("input[name='options']:checked").val();
 
         $.ajax({
             url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/updateProduct',
@@ -55,7 +56,8 @@ $(document).ready(function(){
                 'marca': marca,
                 'color': color,
                 'idLab': idLab,
-                'idProd':idProd
+                'idProd':idProd,
+                'tipoEstado':tipoEstado
             },
             dataType: "json",
             success: function(response){

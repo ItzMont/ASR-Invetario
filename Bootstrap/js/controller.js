@@ -25,7 +25,7 @@ $(document).ready(function(){
                 
                 <td>${tabla.area}</td>
                 <td>${tabla.edificio}</td>
-                <td>${tabla.estado}</td>
+                <td>${tabla.tipoEstado}</td>
                 <td><button type="submit" class="btn btn-outline-dark btn-sm" value="${tabla.idproducto}" id="modificar">Modificar </button> </td>
                 </tr>` 
                     
