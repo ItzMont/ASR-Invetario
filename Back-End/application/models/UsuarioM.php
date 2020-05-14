@@ -7,8 +7,24 @@
         }
 
         public function verifiyCount($userName,$contra){
+            $query = $this->db->query("SELECT
+                                            contraASR
+                                        FROM
+                                            usuarios
+                                        WHERE
+                                            claveIdentificacion = ".$this->db->escape($userName)." AND
+                                            estado = 1;");
+            $passHashed =  $query->row_array();
+            if(!empty($passHashed)){
+                //$passHashed = password_hash($contra, PASSWORD_DEFAULT, ['cost' => 15]);
+                if(password_verify($contra,$passHashed['contraASR'])){
+                    return true;
+                }
+            }else{
+                return false;
+            }
 
-            $query = $this->db->query("select * from roles;");
+            //=============================CODIGO USANDO PROCESOS ALMACENADOS
 
             // $query = $this->db->query("CALL GetUserForLogin(".$this->db->escape($userName).")");
             // $passHashed =  $query->row_array();
@@ -24,8 +40,55 @@
         }
 
         public function ContinueLoginSucceful($userName){
+            $query = $this->db->query("SELECT
+                                            idusuario,
+                                            nombre,
+                                            apellidoP,
+                                            apellidoM,
+                                            claveIdentificacion,
+                                            fdn,
+                                            role_type
+                                        FROM
+                                            usuarios AS U LEFT JOIN roles AS R ON U.idrol = R.idrol
+                                        WHERE
+                                            claveIdentificacion = ".$this->db->escape($userName)." AND 
+                                            U.estado = 1;");
+
+            $dataUser = $query->row_array();
+            if(!empty($dataUser)){
+                $query = $this->db->query("UPDATE 
+                                                sesiones
+                                            SET 
+                                                estado = 0,
+                                                tiempoFin = CURRENT_TIMESTAMP()
+                                            WHERE 
+                                                idusuario = ".$this->db->escape($dataUser['idusuario'])." AND
+                                                estado = 1;");
+
+                $query = $this->db->query("INSERT INTO sesiones(
+                                                idusuario
+                                            )
+                                            VALUES(
+                                                ".$this->db->escape($dataUser['idusuario'])."
+                                            );");
+                $idsessionUser = $this->db->insert_id();
+                // $idsessionUser = $query->row_array();
+
+                if(!empty($idsessionUser)){
+                    // $resultSet = array_merge($dataUser,$idsessionUser);
+                    $resultSet = array_merge($dataUser,array("idsesion" => $idsessionUser));
+                   
+                }else{
+                    unset($dataUser);
+                    $resultSet = array("error" => 11, "message" => "No se pudo crear una session para el usuario");
+                }
+            }else{
+                $resultSet = array("error" => 10, "message" => "No se encontraron datos del usuario.");
+            }
+            return $resultSet;
+
+            //=============================CODIGO USANDO PROCESOS ALMACENADOS
             // $query = $this->db->query("CALL GetUserByUserName(".$this->db->escape($userName).")");
-            $query = $this->db->query("select * from roles;");
             // $dataUser = $query->row_array();
             // mysqli_next_result( $this->db->conn_id);
             // if(!empty($dataUser)){
