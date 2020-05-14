@@ -16,7 +16,7 @@ $(document).ready(function () {
         
         $.ajax({
             type: "POST",
-            url: "http://localhost/Proyecto/Back-End/Usuario/login",
+            url: "https://asrinventario.000webhostapp.com/Back-End/Usuario/login",
             data: payload,
             dataType: "json",
             beforeSend: function(){
@@ -33,7 +33,7 @@ $(document).ready(function () {
               }
             },
             error: function(){
-              alert("Error: No se realizar login.");
+              alert("Error: No se pudo realizar el login.");
               $('#contraInput').val("");
             },
             complete: function() {

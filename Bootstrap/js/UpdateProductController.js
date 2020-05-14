@@ -10,7 +10,7 @@ $(document).ready(function(){
         //console.log("id "+id+" token "+ tok );
 
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getProduct',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getProduct',
             type:'GET',
             data:{
                 token: token,
@@ -46,7 +46,7 @@ $(document).ready(function(){
 
 
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/updateProduct',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/updateProduct',
             type: 'POST',
             data: { 
                 'token': token,
