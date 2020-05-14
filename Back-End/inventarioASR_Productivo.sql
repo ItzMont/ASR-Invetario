@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
     `model` VARCHAR(45) NULL,
     `idarea` INT NULL,
     `idubicacion` INT NULL,
+    `idtipoEstado` INT NULL,
     `estado` TINYINT NOT NULL DEFAULT 1,
     PRIMARY KEY (`idproducto`),
     FOREIGN KEY (`idarea`)
@@ -60,6 +61,10 @@ CREATE TABLE IF NOT EXISTS `productos` (
     ON UPDATE NO ACTION,
     FOREIGN KEY (`idubicacion`)
     REFERENCES `ubicaciones` (`idubicacion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (`idtipoEstado`)
+    REFERENCES `tipoEstados` (`idtipoEstado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -696,6 +701,22 @@ INSERT INTO ubicaciones(
   "Aztli"
 );
 
+INSERT INTO tipoEstados(
+  tipo
+)VALUES(
+  "DESCOMPUESTO"
+),(
+  "MALAS CONDICIONES"
+),(
+  "NORMAL"
+),(
+  "BUENAS CONDICIONES"
+),(
+  "EXCELENTES CONDICIONES"
+);
+
+
+
 INSERT INTO productos(
   inventory_num,
   serial_num,
@@ -704,7 +725,8 @@ INSERT INTO productos(
   brand,
   model,
   idubicacion,
-  idarea
+  idarea,
+  idtipoEstado
 )VALUES(
   "000100",
   "000050",
@@ -713,6 +735,7 @@ INSERT INTO productos(
   "SAMSUNG",
   "DE LUJO",
   5,
+  1,
   1
 ),(
   "000200",
@@ -722,7 +745,8 @@ INSERT INTO productos(
   "DESCONOCIDO",
   "SENCILLO",
   3,
-  3
+  3,
+  2
 ),(
   "000400",
   "000070",
@@ -731,7 +755,8 @@ INSERT INTO productos(
   "SAMSUNG",
   "DE LUJO",
   3,
-  1
+  1,
+  2
 ),(
   "000700",
   "000100",
@@ -740,7 +765,8 @@ INSERT INTO productos(
   "LG",
   "NORMAL",
   3,
-  1
+  1,
+  3
 ),(
   "000800",
   "000150",
@@ -749,7 +775,8 @@ INSERT INTO productos(
   "DESCONOCIDO",
   "NORMAL",
   4,
-  2
+  2,
+  3
 );
 
 
