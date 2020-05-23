@@ -16,7 +16,8 @@ $(document).ready(function () {
         
         $.ajax({
             type: "POST",
-            url: "http://localhost/Proyecto/Back-End/Usuario/login",
+            url: "https://asrinventario.000webhostapp.com/Back-End/Usuario/login",
+            // url: "https://asrinventario.000webhostapp.com/Back-End/MyController/loginTest",
             data: payload,
             dataType: "json",
             beforeSend: function(){
@@ -25,15 +26,17 @@ $(document).ready(function () {
             },
             success: function (response) {
               if(response['error'] == 0){
+                console.log(response);
                 localStorage.setItem("tokenPrincipal",response['token']);
                 window.location.href = "dash.html";
               }else{
                 alert(response['message']);
+                console.log(response);
                 $('#contraInput').val("");
               }
             },
             error: function(){
-              alert("Error: No se realizar login.");
+              alert("Error: No se pudo realizar el login.");
               $('#contraInput').val("");
             },
             complete: function() {
@@ -45,7 +48,7 @@ $(document).ready(function () {
     
     function verifyIfExistToken(){
       if (localStorage.getItem("tokenPrincipal") !== null) {
-        window.location.href = "dash.html";
+        // window.location.href = "dash.html";
         // console.log(localStorage.getItem("tokenPrincipal"));
       }
     }

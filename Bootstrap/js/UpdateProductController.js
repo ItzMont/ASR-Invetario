@@ -10,7 +10,7 @@ $(document).ready(function(){
         //console.log("id "+id+" token "+ tok );
 
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getProduct',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getProduct',
             type:'GET',
             data:{
                 token: token,
@@ -44,9 +44,10 @@ $(document).ready(function(){
         var idProd = $('#idProd').val();
         var idProduct = localStorage.getItem("idProducto");
 
-
+        var tipoEstado = $("input[name='options']:checked").val();
+        // console.log(tipoEstado);
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/updateProduct',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/updateProduct',
             type: 'POST',
             data: { 
                 'token': token,
@@ -55,7 +56,8 @@ $(document).ready(function(){
                 'marca': marca,
                 'color': color,
                 'idLab': idLab,
-                'idProd':idProd
+                'idProd':idProd,
+                'tipoEstado':tipoEstado
             },
             dataType: "json",
             success: function(response){

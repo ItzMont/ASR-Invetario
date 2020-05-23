@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *');
-header("Content-Type: multipart/form-data ; charset=utf-8");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+// header('Access-Control-Allow-Origin: *');
+// header("Content-Type: multipart/form-data ; charset=utf-8");
+// header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 
 use Restserver\libraries\REST_Controller;
@@ -11,7 +11,7 @@ use Restserver\libraries\REST_Controller_Definitions;
 require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
-require_once 'CreatorPDF.php';
+// require_once 'CreatorPDF.php';
 
 class Usuario extends CI_Controller{
 
@@ -19,6 +19,12 @@ class Usuario extends CI_Controller{
 		REST_Controller::__construct as private __resTraitConstruct;
     }
 	
+	public function loginTest_post(){
+		$this->load->model('UsuarioM');
+		$respone = $this->UsuarioM->verifiyCount("hola","hola");
+		$this->response(array($respone));
+	}
+
 	public function login_post(){
 		
 		$this->load->model('UsuarioM');
@@ -35,7 +41,7 @@ class Usuario extends CI_Controller{
 		if(!empty($userName) && !empty($contra)){
 			if($this->UsuarioM->verifiyCount($userName,$contra)){
 				$resulSet = $this->UsuarioM->ContinueLoginSucceful($userName);
-				if(!empty($resulSet) && !array_key_exists('error',$resulSet)){
+				if(!empty($resulSet) && !array_key_exists('error' , $resulSet)){
 					$arrToToken = array("idUser" => $resulSet['idusuario'],"session" => $resulSet["idsession"]);
 					$token = AUTHORIZATION::generateToken($arrToToken);
 	
@@ -44,9 +50,11 @@ class Usuario extends CI_Controller{
 			
 					$resulSet = array_merge($resulSet,["token" => $token],["error" => 0]);
 					$this->response($resulSet);
+
+					// $this->response(array('aqui es donde deberia ir el token',$resulSet));
 	
 				}else{
-					$resulSet = array("error" => 101, "message" => "Contact the administrator.");
+					$resulSet = array("error" => 101, "message" => "Contact the administrator.","result" => $resulSet);
 				}
 			}
 			else
@@ -54,10 +62,11 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			$this->response(array('respuesta','no se enviaron valores'));
+			// header('Location: ./../../index.html');
 		}
-		
-		
+
+		//$this->response(array($userName,$contra));
 	}
 
 	public function logout_post(){
@@ -89,7 +98,7 @@ class Usuario extends CI_Controller{
 	
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 		
@@ -136,7 +145,7 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 		
@@ -156,6 +165,7 @@ class Usuario extends CI_Controller{
 		$color = $this->input->post('color');
 		$idLab = $this->input->post('idLab');
 		$idProd = $this->input->post('idProd');
+		$tipoEstado = $this->input->post('tipoEstado');
 
 		$resulSet = $idProd;
 		
@@ -168,7 +178,7 @@ class Usuario extends CI_Controller{
 	
 				
 	
-				$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca);
+				$resultQuery = $this->UsuarioM->UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca,$tipoEstado);
 				
 				//$resulSet = $resultQuery;
 	
@@ -184,7 +194,7 @@ class Usuario extends CI_Controller{
 			
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 
 		
@@ -222,7 +232,7 @@ class Usuario extends CI_Controller{
 	
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 	}
 
@@ -260,7 +270,7 @@ class Usuario extends CI_Controller{
 	
 			$this->response($resulSet);
 		}else{
-			header('Location: ./../../Bootstrap/index.html');
+			header('Location: ./../../index.html');
 		}
 	}
 
@@ -282,41 +292,45 @@ class Usuario extends CI_Controller{
 
 
 	//=========NO TIENE BUEN FUNCIONAMIENTO PORQUE ES NECESARIO DEFINIR UN DASH
-
-	public function createReportAllProducts_get(){
-		$this->load->model('UsuarioM');
-		// //Forma normal dde recibir los datos
-		// $payload = json_decode($this->input->get('payload'));
-		// $token = $payload->token;
-		//=====================================================
-		//Forma para el Front-End de recuperar la informacion
-		$token = $this->input->get('token');
+	
+	// public function createReportAllProducts_get(){
+	// 	$this->load->model('UsuarioM');
+	// 	// //Forma normal dde recibir los datos
+	// 	// $payload = json_decode($this->input->get('payload'));
+	// 	// $token = $payload->token;
+	// 	//=====================================================
+	// 	//Forma para el Front-End de recuperar la informacion
+	// 	$token = $this->input->get('token');
 		
-		if(!empty($token)){
-			try{
-				$arrOfToken = AUTHORIZATION::validateToken($token);
+	// 	if(!empty($token)){
+	// 		try{
+	// 			$arrOfToken = AUTHORIZATION::validateToken($token);
 	
-				$idUser = $arrOfToken->idUser;
-				$idSesion = $arrOfToken->session;
+	// 			$idUser = $arrOfToken->idUser;
+	// 			$idSesion = $arrOfToken->session;
 	
-				$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
+	// 			$resultQuery = $this->UsuarioM->GetDash($idUser,$idSesion);
 	
-				if(!array_key_exists('error',$resultQuery)){
+	// 			if(!array_key_exists('error',$resultQuery)){
 	
-					$pdf = new CreatorPDF();
+	// 				$pdf = new CreatorPDF();
 	
-					$pdf->createReportAllProducts($resultQuery);
+	// 				$pdf->createReportAllProducts($resultQuery);
 	
-				}else{
-					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
-				}
+	// 				$pdf->Output('D','MyPDF.pdf');
+	// 			}else{
+	// 				$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+	// 			}
 				
-			}catch(Exception $e){
-				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
-			}
-		}else{
-			header('Location: ./../../Bootstrap/index.html');
-		}
+	// 		}catch(Exception $e){
+	// 			$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+	// 		}
+	// 	}else{
+	// 		// header('Location: ./../../index.html');
+	// 	}
+
+	// 	// $pdf = new CreatorPDF();
+	// 	// $pdf->createReportAllProducts('hola');
 
 
 
@@ -325,21 +339,20 @@ class Usuario extends CI_Controller{
 
 
 
-
-		//=======
-		// $resultQuery = $this->UsuarioM->GetDash(1,5);
+	// 	//=======
+	// 	// $resultQuery = $this->UsuarioM->GetDash(1,5);
 	
-		// if(!array_key_exists('error',$resultQuery)){
+	// 	// if(!array_key_exists('error',$resultQuery)){
 
-		// 	$pdf = new CreatorPDF();
+	// 	// 	$pdf = new CreatorPDF();
 
-		// 	$pdf->createReportAllProducts($resultQuery);
+	// 	// 	$pdf->createReportAllProducts($resultQuery);
 
-		// }else{
-		// 	$resulSet = array("error" => 103, "message" => "Contact the administrator.");
-		// }
+	// 	// }else{
+	// 	// 	$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+	// 	// }
 
 		
 		
-	}
+	// }
 }

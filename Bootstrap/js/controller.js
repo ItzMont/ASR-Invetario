@@ -4,7 +4,7 @@ $(document).ready(function(){
     
 
     $.ajax({
-        url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
+        url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getDash',
         type: 'GET',
         data: { 'token': token2 },
         datatype: "JSON",
@@ -25,7 +25,7 @@ $(document).ready(function(){
                 
                 <td>${tabla.area}</td>
                 <td>${tabla.edificio}</td>
-                <td>${tabla.estado}</td>
+                <td>${tabla.tipoEstado}</td>
                 <td><button type="submit" class="btn btn-outline-dark btn-sm" value="${tabla.idproducto}" id="modificar">Modificar </button> </td>
                 </tr>` 
                     
@@ -49,7 +49,7 @@ $(document).ready(function(){
         
     $('#id_inven').click(function(){
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getDash',
             type: 'GET',
             data: { 'token': token2 },
             datatype: "JSON",
@@ -84,7 +84,7 @@ $(document).ready(function(){
 
     $('#no_serial').click(function(){
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getDash',
             type: 'GET',
             data: { 'token': token2 },
             datatype: "JSON",
@@ -119,7 +119,7 @@ $(document).ready(function(){
 
     $('#marca').click(function(){
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getDash',
             type: 'GET',
             data: { 'token': token2 },
             datatype: "JSON",
@@ -155,7 +155,7 @@ $(document).ready(function(){
 
     $('#color').click(function(){
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getDash',
             type: 'GET',
             data: { 'token': token2 },
             datatype: "JSON",
@@ -204,7 +204,7 @@ $(document).ready(function(){
         let search = $('#myInput').val();
         console.log(search);
         $.ajax({
-            url: 'http://localhost/Proyecto/Back-End/Usuario/getDash',
+            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getDash',
             type: 'GET',
             success: function(response){
                 console.log(response);
