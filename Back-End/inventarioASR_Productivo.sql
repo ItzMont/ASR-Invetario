@@ -704,16 +704,12 @@ INSERT INTO ubicaciones(
 INSERT INTO tipoEstados(
   tipo
 )VALUES(
-  "DESCOMPUESTO"
+  "BAJA"
 ),(
-  "MALAS CONDICIONES"
+  "REPARACION"
 ),(
-  "NORMAL"
-),(
-  "BUENAS CONDICIONES"
-),(
-  "EXCELENTES CONDICIONES"
-);
+  "DISPONIBLE"
+)
 
 
 

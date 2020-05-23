@@ -186,6 +186,19 @@
 
         public function UpdateProduct($idUser,$idSesion,$idProduct,$idLab,$idProd,$color,$marca,$tipoEstado){
             if($this->ValidatedUser($idUser,$idSesion)){
+
+                // $query_string = " UPDATE productos
+                // SET
+                //     inventory_num = ".$this->db->escape($idLab).",
+                //     serial_num = ".$this->db->escape($idProd).",
+                //     color = ".$this->db->escape($color).",
+                //     date_modified = CURRENT_TIMESTAMP(),
+                //     brand = ".$this->db->escape($marca).",
+                //     idtipoEstado = ".$this->db->escape($tipoEstado)."
+                // WHERE 
+                //  idproducto = ".$this->db->escape($idProduct)." AND
+                // estado = 1;";
+
                 $query = $this->db->query(" UPDATE productos
                                             SET
                                                 inventory_num = ".$this->db->escape($idLab).",
@@ -199,9 +212,13 @@
                                             estado = 1;");
                 //$resultSet = $query->result_array(); 
                 // mysqli_next_result($this->db->conn_id);
+
+
+                // $resultSet = array("error" => 0 ,'consulta' => $query_string);
                 $resultSet = array("error" => 0 );
             }else{
-                $resultSet = array("error" => 302 );
+                // $resultSet = array("error" => 302, 'consulta' => $query);
+                $resultSet = array("error" => 302);
             }
 
 

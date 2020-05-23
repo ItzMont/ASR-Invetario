@@ -33,10 +33,10 @@ $(document).ready(function(){
         e.preventDefault();
         // console.log("Hola");
         var token = localStorage.getItem("tokenPrincipal");
-        addProdct(token);
+        updateProduct(token);
     });
     
-    function addProdct(token){
+    function updateProduct(token){
         //var material = $('#material').val();
         var marca = $('#marca').val();
         var color = $('#color').val();
@@ -45,7 +45,9 @@ $(document).ready(function(){
         var idProduct = localStorage.getItem("idProducto");
 
         var tipoEstado = $("input[name='options']:checked").val();
-        // console.log(tipoEstado);
+        // console.log(`El tipo estado es ${tipoEstado}`);
+
+        
         $.ajax({
             url: 'http://rene.260mb.net/ID2/Back-End/Usuario/updateProduct',
             type: 'POST',
