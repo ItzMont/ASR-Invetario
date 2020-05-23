@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `responsableDeProducto` (
     `idresponsable` INT NULL,
     `idproducto` INT NULL,
     `fechaInicio` DATE NOT NULL,
-    `fechaFin` DATE NOT NULL,
+    `fechaFin` DATE,
     `estado` TINYINT NOT NULL DEFAULT 1,
     PRIMARY KEY (`idresponsableDeProducto`),
     FOREIGN KEY (`idresponsable`)
