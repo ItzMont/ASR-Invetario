@@ -16,7 +16,7 @@ $(document).ready(function () {
         
         $.ajax({
             type: "POST",
-            url: "https://asrinventario.000webhostapp.com/Back-End/Usuario/login",
+            url: "http://rene.260mb.net/ID2/Back-End/Usuario/login",
             // url: "https://asrinventario.000webhostapp.com/Back-End/MyController/loginTest",
             data: payload,
             dataType: "json",

@@ -10,7 +10,7 @@ $(document).ready(function(){
         //console.log("id "+id+" token "+ tok );
 
         $.ajax({
-            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/getProduct',
+            url: 'http://rene.260mb.net/ID2/Back-End/Usuario/getProduct',
             type:'GET',
             data:{
                 token: token,
@@ -47,7 +47,7 @@ $(document).ready(function(){
         var tipoEstado = $("input[name='options']:checked").val();
         // console.log(tipoEstado);
         $.ajax({
-            url: 'https://asrinventario.000webhostapp.com/Back-End/Usuario/updateProduct',
+            url: 'http://rene.260mb.net/ID2/Back-End/Usuario/updateProduct',
             type: 'POST',
             data: { 
                 'token': token,

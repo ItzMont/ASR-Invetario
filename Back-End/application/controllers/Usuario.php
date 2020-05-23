@@ -19,6 +19,10 @@ class Usuario extends CI_Controller{
 		REST_Controller::__construct as private __resTraitConstruct;
     }
 	
+	public function test_get(){
+		$this->response(array('1' => 'Hola'));
+	}
+
 	public function loginTest_post(){
 		$this->load->model('UsuarioM');
 		$respone = $this->UsuarioM->verifiyCount("hola","hola");

@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'id13508925_bryants',
-	'password' => 'z3=d5=d_rZ|1L_^m',
-	'database' => 'id13508925_inventarioasr',
+	'hostname' => 'sql311.260mb.net',
+	'username' => 'n260m_24550249',
+	'password' => '2zds7ytv',
+	'database' => 'n260m_24550249_inventarioASR',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
