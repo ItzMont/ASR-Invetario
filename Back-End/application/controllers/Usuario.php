@@ -11,7 +11,7 @@ use Restserver\libraries\REST_Controller_Definitions;
 require APPPATH . '/libraries/REST_Controller_Definitions.php';
 require APPPATH . '/libraries/REST_Controller.php';
 require APPPATH . '/libraries/Format.php';
-// require_once 'CreatorPDF.php';
+require_once 'CreatorPDF.php';
 
 class Usuario extends CI_Controller{
 
@@ -21,6 +21,14 @@ class Usuario extends CI_Controller{
 	
 	public function test_get(){
 		$this->response(array('1' => 'Hola'));
+	}
+
+	public function testPDF_get(){
+		$pdf = new CreatorPDF();
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',16);
+		$pdf->Cell(40,10,'Hello World!');
+		$pdf->Output();
 	}
 
 	public function loginTest_post(){
