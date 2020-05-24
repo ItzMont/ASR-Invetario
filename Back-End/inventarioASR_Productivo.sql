@@ -775,5 +775,74 @@ INSERT INTO productos(
   3
 );
 
+INSERT INTO responsables(
+  nombre,
+  apellidoP,
+  apellidoM,
+  claveDocente
+)VALUES(
+  "JUAN",
+  "PEREZ",
+  "SOTO",
+  "MICLAVE001"
+),
+(
+  "OSCAR",
+  "TELLEZ",
+  "MARTINEZ",
+  "MICLAVE002"
+),(
+  "MARTA",
+  "RODRIGUEZ",
+  "MORELOS",
+  "MICLAVE003"
+),
+(
+  "GUADALUPE",
+  "VASQUEZ",
+  "ORTEGA",
+  "MICLAVE004"
+);
+
+INSERT INTO responsableDeProducto(
+  idresponsable,
+  idproducto,
+  fechaInicio,
+  fechaFin
+)VALUES(
+  1,
+  1,
+  NOW(),
+  NULL
+),(
+  1,
+  2,
+  NOW(),
+  NULL
+),(
+  2,
+  3,
+  NOW(),
+  NULL
+),(
+  3,
+  4,
+  NOW(),
+  NULL
+),(
+  4,
+  5,
+  NOW(),
+  NULL
+),
+(
+  4,
+  6,
+  NOW(),
+  NULL
+);
+
+
+
 
 
