@@ -118,20 +118,26 @@ class Usuario extends CI_Controller{
 
 	public function addProduct_post(){
 		$this->load->model('UsuarioM');
-		// //Forma normal dde recibir los datos
-		// $payload = json_decode($this->input->get('payload'));
-		// $token = $payload->token;
-		//=====================================================
-		//Forma para el Front-End de recuperar la informacion
+
+
 		$token = $this->input->post('token');
-		$material = $this->input->post('material');
+		$responsable = $this->input->post('responsable');
 		$marca = $this->input->post('marca');
 		$color = $this->input->post('color');
 		$idLab = $this->input->post('idLab');
 		$idProd = $this->input->post('idProd');
 
-		$resulSet = $idProd;
+		// $resulSet = $idProd;
 		
+		// $this->response(array(
+		// 	"token" => $token,
+		// 	"responsable" => $responsable,
+		// 	"marca" => $marca,
+		// 	"color" => $color,
+		// 	"idLab" => $idLab,
+		// 	"idProd" => $idProd
+		// ));
+
 		if(!empty($token)){
 			try{
 				$arrOfToken = AUTHORIZATION::validateToken($token);
@@ -141,7 +147,7 @@ class Usuario extends CI_Controller{
 	
 				
 	
-				$resultQuery = $this->UsuarioM->InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca);
+				$resultQuery = $this->UsuarioM->InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca,$responsable);
 				
 				//$resulSet = $resultQuery;
 	

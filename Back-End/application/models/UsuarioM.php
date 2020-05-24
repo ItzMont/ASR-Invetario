@@ -143,8 +143,9 @@
             // }
         }
 
-        public function InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca){
+        public function InsertProduct($idUser,$idSesion,$idLab,$idProd,$color,$marca,$responsable){
             if($this->ValidatedUser($idUser,$idSesion)){
+                $this->db->trans_start();
                 $query = $this->db->query("INSERT INTO productos(
                                                 inventory_num,
                                                 serial_num,
@@ -162,8 +163,31 @@
                                                 1,
                                                 1
                                             );");
-                //$resultSet = $query->result_array(); 
-                // mysqli_next_result($this->db->conn_id);
+                if($query){
+                    $idProduct = $this->db->insert_id();
+                    $dateIni = date('Y/m/d');
+                    $dateEnd = NULL;
+                    $query = $this->db->query("INSERT INTO responsableDeProducto(
+                                                    idresponsable,
+                                                    idproducto,
+                                                    fechaInicio,
+                                                    fechaFin
+                                                )VALUES(
+                                                    ".$this->db->escape($responsable).",
+                                                     ".$this->db->escape($idProduct).",
+                                                     ".$this->db->escape($dateIni).",
+                                                     ".$this->db->escape($dateEnd)."
+                                                );");
+                    if($query){
+                        $this->db->trans_complete();
+                    }else{
+                        $this->db->trans_rollback();
+                        $resultSet = array("error" => 304, "mensaje" => "Error al asignar al responsable." );
+                    }
+                }else{
+                    $this->db->trans_rollback();
+                    $resultSet = array("error" => 304, "mensaje" => "Error al crear el producto" );
+                }                                            
                 $resultSet = array("error" => 0 );
             }else{
                 $resultSet = array("error" => 302 );

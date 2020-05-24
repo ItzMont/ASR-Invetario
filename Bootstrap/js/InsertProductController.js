@@ -37,7 +37,7 @@ $(document).ready(function(){
     });
     
     function addProdct(){
-        var material = $('#material').val();
+        var responsable = $('#dropdownMenuButton').val();
         var marca = $('#marca').val();
         var color = $('#color').val();
         var idLab = $('#idLab').val();
@@ -50,7 +50,7 @@ $(document).ready(function(){
             type: 'POST',
             data: { 
                 'token': token,
-                'material': "NORMAL",
+                'responsable': responsable,
                 'marca': marca,
                 'color': color,
                 'idLab': idLab,

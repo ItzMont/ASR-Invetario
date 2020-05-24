@@ -40,6 +40,13 @@ CREATE TABLE IF NOT EXISTS `ubicaciones` (
   PRIMARY KEY (`idubicacion`))
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `tipoEstados` (
+  `idtipoEstado` INT NOT NULL AUTO_INCREMENT,
+  `tipo` VARCHAR(45) NOT NULL,
+  `estado` TINYINT NOT NULL DEFAULT 1,
+  PRIMARY KEY (`idtipoEstado`))
+ENGINE = InnoDB;
+
 
 CREATE TABLE IF NOT EXISTS `productos` (
     `idproducto` INT NOT NULL AUTO_INCREMENT,
@@ -82,12 +89,7 @@ CREATE TABLE IF NOT EXISTS `responsables` (
 ENGINE = InnoDB;
 
 
-CREATE TABLE IF NOT EXISTS `tipoEstados` (
-  `idtipoEstado` INT NOT NULL AUTO_INCREMENT,
-  `tipo` VARCHAR(45) NOT NULL,
-  `estado` TINYINT NOT NULL DEFAULT 1,
-  PRIMARY KEY (`idtipoEstado`))
-ENGINE = InnoDB;
+
 
 
 CREATE TABLE IF NOT EXISTS `estadosDeProductos` (
@@ -709,7 +711,7 @@ INSERT INTO tipoEstados(
   "REPARACION"
 ),(
   "DISPONIBLE"
-)
+);
 
 
 
