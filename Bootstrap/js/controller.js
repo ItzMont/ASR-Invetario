@@ -18,12 +18,12 @@ $(document).ready(function(){
             let i = '';
             tabla.forEach(tabla => {
                 i += `<tr>
-                <td><a>${tabla.idproducto} </a></td>
+                <td><a>${tabla.inventory_num} </a></td>
                 <td>${tabla.serial_num}</td>
                 <td>${tabla.color}</td>
                 <td>${tabla.brand}</td>
                 
-                <td>${tabla.area}</td>
+                <td>${tabla.docenteResponsable}</td>
                 <td>${tabla.edificio}</td>
                 <td>${tabla.tipoEstado}</td>
                 <td><button type="submit" class="btn btn-outline-dark btn-sm" value="${tabla.idproducto}" id="modificar">Modificar </button> </td>

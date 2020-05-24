@@ -286,6 +286,37 @@ class Usuario extends CI_Controller{
 		}
 	}
 
+	public function getDocentesForDD_get(){
+		$this->load->model('UsuarioM');
+		$token = $this->input->get('token');
+		
+		if(!empty($token)){
+			try{
+				$arrOfToken = AUTHORIZATION::validateToken($token);
+	
+				$idUser = $arrOfToken->idUser;
+				$idSesion = $arrOfToken->session;
+	
+				$resultQuery = $this->UsuarioM->getDocDD($idUser,$idSesion);
+				
+				// $resulSet = $resultQuery;
+	
+				if(!array_key_exists('error',$resultQuery)){
+					$resulSet = $resultQuery;
+				}else{
+					$resulSet = array("error" => 103, "message" => "Contact the administrator.");
+				}
+				
+			}catch(Exception $e){
+				$resulSet = array("error" => 104, 'message' => "Error contacte al administrador.");
+			}
+	
+			$this->response($resulSet);
+		}else{
+			header('Location: ./../../index.html');
+		}
+	}
+
 	public function test_post(){
 		//$payload = $this->input->post('payload');
 

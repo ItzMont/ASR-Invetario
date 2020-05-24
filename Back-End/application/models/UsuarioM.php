@@ -238,28 +238,27 @@
         public function GetDash($idUser,$idSesion){
             if($this->ValidatedUser($idUser,$idSesion)){
                 $query = $this->db->query("SELECT
-                                                idproducto,
+                                                P.idproducto AS idproducto,
                                                 inventory_num,
                                                 serial_num,
                                                 color,
-                                                descripcion,
-                                                date_modified,
                                                 brand,
-                                                model,
-                                                P.estado,
-                                                area,
+                                                CONCAT(nombre,' ',apellidoP,' ',apellidoM) AS docenteResponsable,
                                                 edificio,
-                                                salon,
                                                 T.tipo AS tipoEstado
                                             FROM
                                                 productos AS P 
                                                 LEFT JOIN areas AS A ON P.idarea = A.idarea
                                                 LEFT JOIN ubicaciones AS U ON P.idubicacion = U.idubicacion
                                                 LEFT JOIN tipoEstados AS T ON P.idtipoEstado = T.idtipoEstado
+                                                LEFT JOIN responsableDeProducto AS RP ON P.idproducto = RP.idproducto
+                                                LEFT JOIN responsables AS R ON RP.idresponsable = R.idresponsable
                                             WHERE
                                                 P.estado = 1 AND
                                                 A.estado = 1 AND
                                                 T.estado = 1 AND
+                                                RP.estado = 1 AND
+                                                R.estado = 1 AND
                                                 U.estado = 1;");
                 $resultSet = $query->result_array(); 
                 // mysqli_next_result($this->db->conn_id);
@@ -334,5 +333,23 @@
             //     // return false;
             //     return true;
             // }
+        }
+
+        public function getDocDD($idUser,$idSesion){
+            if($this->ValidatedUser($idUser,$idSesion)){
+                $query = $this->db->query(" SELECT
+                                                idresponsable,
+                                                CONCAT(apellidoP,' ',apellidoM,' ',nombre) AS docenteResponsable
+                                            FROM
+                                                responsables
+                                            WHERE
+                                                estado = 1
+                                            ORDER BY
+                                                apellidoP;");
+                $resultSet = $query->result_array(); 
+            }else{
+                $resultSet = array("error" => 302 );
+            }
+            return $resultSet;
         }
     }
